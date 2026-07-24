@@ -3,38 +3,370 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="mneux12130.cn domain connection test">
-  <title>域名连接成功</title>
+  <meta name="description" content="Codex Lab on web.mneux12130.cn">
+  <title>Codex Lab | 域名实验室</title>
   <style>
-    :root { color-scheme: light; --ink:#17211c; --muted:#5f6963; --paper:#f5f7f4; --line:#d9dfda; --green:#16794b; --blue:#215c99; --coral:#d35a40; }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px; background:var(--paper); color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
-    main { width:min(760px,100%); border-top:6px solid var(--green); border-bottom:1px solid var(--line); padding:clamp(32px,7vw,72px) 0 28px; }
-    .status { display:inline-flex; align-items:center; gap:10px; color:var(--green); font-size:14px; font-weight:700; }
-    .dot { width:11px; height:11px; border-radius:50%; background:var(--green); box-shadow:0 0 0 5px #dcefe4; }
-    h1 { margin:24px 0 14px; max-width:680px; font-size:clamp(40px,8vw,82px); line-height:1.02; letter-spacing:0; font-weight:750; }
-    .lead { margin:0; max-width:620px; color:var(--muted); font-size:clamp(18px,2.8vw,24px); line-height:1.65; }
-    .domain { color:var(--blue); overflow-wrap:anywhere; }
-    dl { margin:44px 0 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--line); }
-    div.item { padding:18px 18px 18px 0; border-bottom:1px solid var(--line); }
-    dt { color:var(--muted); font-size:13px; }
-    dd { margin:7px 0 0; font-size:15px; font-weight:650; overflow-wrap:anywhere; }
-    .github { color:var(--coral); }
-    footer { margin-top:28px; color:var(--muted); font-size:13px; }
-    @media (max-width:620px) { dl { grid-template-columns:1fr; } div.item { padding-right:0; } }
+    :root {
+      color-scheme: light;
+      --paper: #f6f4ee;
+      --ink: #17201c;
+      --muted: #65716c;
+      --line: #d8d5cc;
+      --panel: #ffffff;
+      --green: #157a53;
+      --blue: #1e5b8f;
+      --coral: #c7553d;
+      --gold: #a46c18;
+      --shadow: 0 24px 70px rgba(28, 36, 32, .14);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(23,32,28,.055) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(23,32,28,.045) 1px, transparent 1px),
+        var(--paper);
+      background-size: 48px 48px;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(246, 244, 238, .9);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #183c2c;
+      background: var(--ink);
+      color: #f8fff9;
+      font-size: 15px;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 20px; color: var(--muted); font-size: 14px; }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .hero {
+      min-height: calc(100vh - 68px);
+      display: grid;
+      align-items: center;
+      padding: 64px 0 54px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .75fr);
+      gap: clamp(28px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 760;
+      text-transform: uppercase;
+    }
+
+    .pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 6px #d9ebdf;
+    }
+
+    h1 {
+      margin: 22px 0 20px;
+      max-width: 760px;
+      font-size: clamp(46px, 8.5vw, 96px);
+      line-height: .96;
+      letter-spacing: 0;
+      font-weight: 830;
+    }
+
+    .lead {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2.4vw, 24px);
+      line-height: 1.65;
+    }
+
+    .domain { color: var(--blue); font-weight: 760; overflow-wrap: anywhere; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      font-weight: 720;
+      font-size: 14px;
+    }
+
+    .button.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+
+
+    .status-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .panel-head { display: flex; justify-content: space-between; gap: 16px; align-items: start; margin-bottom: 22px; }
+
+    .panel-title { margin: 0; font-size: 20px; line-height: 1.2; }
+
+    .badge { color: var(--green); border: 1px solid #b9dcc8; background: #eef8f1; padding: 6px 9px; font-size: 12px; font-weight: 760; white-space: nowrap; }
+
+    .metrics { display: grid; gap: 12px; }
+
+    .metric { display: grid; grid-template-columns: 98px minmax(0, 1fr); gap: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
+
+    .metric dt { color: var(--muted); font-size: 13px; }
+
+    .metric dd { margin: 0; font-weight: 720; overflow-wrap: anywhere; }
+
+    .diagram {
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      background: #fbfaf6;
+      padding: 18px;
+    }
+
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+    .flow-step { min-height: 88px; border: 1px solid var(--line); padding: 13px; background: #fff; }
+
+    .flow-step strong { display: block; margin-bottom: 8px; }
+
+    .flow-step span { color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+    section { padding: 72px 0; border-top: 1px solid var(--line); }
+
+    .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 28px; }
+
+    h2 { margin: 0; font-size: clamp(30px, 4.4vw, 52px); line-height: 1.05; letter-spacing: 0; }
+
+    .section-head p { margin: 0; max-width: 430px; color: var(--muted); line-height: 1.7; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    .card { border: 1px solid var(--line); background: rgba(255,255,255,.72); padding: 22px; min-height: 190px; }
+
+    .card-kicker { color: var(--coral); font-size: 13px; font-weight: 780; }
+
+    .card h3 { margin: 18px 0 10px; font-size: 22px; letter-spacing: 0; }
+
+    .card p { margin: 0; color: var(--muted); line-height: 1.65; }
+
+    .lab-console {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .console-panel {
+      border: 1px solid #26322d;
+      background: #16211d;
+      color: #e8f4ec;
+      padding: 22px;
+      min-height: 260px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    }
+
+    .console-line { color: #a7d9bd; margin: 0 0 12px; }
+
+    .console-output { margin: 0; white-space: pre-wrap; line-height: 1.65; color: #f3f7f1; }
+
+    .toggle-panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 22px;
+    }
+
+    .toggle-panel h3 { margin: 0 0 12px; font-size: 24px; }
+
+    .toggle-panel p { margin: 0 0 22px; color: var(--muted); line-height: 1.7; }
+
+    .mode-button { cursor: pointer; width: 100%; border: 1px solid var(--ink); background: var(--ink); color: white; min-height: 48px; font-weight: 760; }
+
+    body.focus-mode { --paper: #eef5f2; --green: #0f6f5c; --blue: #254f7f; --coral: #9d4b36; }
+
+    footer.site-footer { padding: 34px 0; color: var(--muted); border-top: 1px solid var(--line); font-size: 14px; }
+
+    @media (max-width: 860px) {
+      .hero-grid, .lab-console { grid-template-columns: 1fr; }
+      .cards, .flow { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 14px; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 28px, 1120px); }
+      .hero { padding-top: 44px; }
+      .metric { grid-template-columns: 1fr; gap: 6px; }
+      .button { width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <main>
-    <div class="status"><span class="dot" aria-hidden="true"></span>ONLINE · 连接正常</div>
-    <h1>域名连接成功。</h1>
-    <p class="lead">你正在访问 <strong class="domain">web.mneux12130.cn</strong>。这个测试页面由 GitHub Pages 安全托管，没有连接到本地电脑。</p>
-    <dl>
-      <div class="item"><dt>域名</dt><dd>mneux12130.cn</dd></div>
-      <div class="item"><dt>托管</dt><dd class="github">GitHub Pages</dd></div>
-      <div class="item"><dt>状态</dt><dd>首次部署测试</dd></div>
-    </dl>
-    <footer>Domain test page · 2026</footer>
+  <header class="topbar">
+    <nav class="shell nav" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="Codex Lab home">
+        <span class="brand-mark">CL</span>
+        <span>Codex Lab</span>
+      </a>
+      <div class="nav-links">
+        <a href="#status">状态</a>
+        <a href="#experiments">实验</a>
+        <a href="#console">控制台</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="shell hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> GitHub Pages online</div>
+          <h1>你的域名现在有前端空间了。</h1>
+          <p class="lead">这里是 <span class="domain">web.mneux12130.cn</span> 的第一个小型前端实验室。它由 GitHub Pages 托管，只运行静态网页，不连接你的本地电脑。</p>
+          <div class="actions">
+            <a class="button" href="#experiments">查看实验台</a>
+            <a class="button secondary" href="https://github.com/miaorongzhen/mneux12130-site" target="_blank" rel="noreferrer">查看源码</a>
+          </div>
+        </div>
+
+        <aside class="status-panel" id="status" aria-label="Domain status">
+          <div class="panel-head">
+            <h2 class="panel-title">连接状态</h2>
+            <span class="badge">LIVE</span>
+          </div>
+          <dl class="metrics">
+            <div class="metric"><dt>域名</dt><dd>mneux12130.cn</dd></div>
+            <div class="metric"><dt>子域名</dt><dd>web.mneux12130.cn</dd></div>
+            <div class="metric"><dt>托管</dt><dd>GitHub Pages</dd></div>
+            <div class="metric"><dt>解析</dt><dd>CNAME -> miaorongzhen.github.io</dd></div>
+          </dl>
+          <div class="diagram" aria-label="DNS flow">
+            <div class="flow">
+              <div class="flow-step"><strong>1. 访问</strong><span>浏览器请求你的子域名。</span></div>
+              <div class="flow-step"><strong>2. 解析</strong><span>阿里云 DNS 指向 GitHub Pages。</span></div>
+              <div class="flow-step"><strong>3. 返回</strong><span>GitHub Pages 返回这个前端页面。</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <section id="experiments">
+      <div class="shell">
+        <div class="section-head">
+          <h2>可以继续试什么？</h2>
+          <p>这个页面适合做前端设计、交互组件、作品入口和公开演示。凡是能在浏览器里运行的静态内容，都可以逐步放上来。</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <span class="card-kicker">01 / UI</span>
+            <h3>视觉系统</h3>
+            <p>练习配色、排版、响应式布局和页面气质，让域名从测试页变成一个可展示的入口。</p>
+          </article>
+          <article class="card">
+            <span class="card-kicker">02 / JS</span>
+            <h3>交互组件</h3>
+            <p>添加按钮、切换状态、表单、计数器、模拟器或小工具，全部在前端运行。</p>
+          </article>
+          <article class="card">
+            <span class="card-kicker">03 / LAB</span>
+            <h3>部署实验</h3>
+            <p>测试 GitHub Pages、DNS、HTTPS、缓存刷新和以后可能接入的前端框架。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="console">
+      <div class="shell">
+        <div class="section-head">
+          <h2>小控制台</h2>
+          <p>这个交互不需要后端。点击按钮会改变页面状态，用来确认 JavaScript 已经在浏览器里运行。</p>
+        </div>
+        <div class="lab-console">
+          <div class="console-panel" aria-live="polite">
+            <p class="console-line">$ dig web.mneux12130.cn</p>
+            <pre class="console-output" id="consoleOutput">status: online
+hosting: GitHub Pages
+mode: default
+local exposure: none</pre>
+          </div>
+          <div class="toggle-panel">
+            <h3>切换实验模式</h3>
+            <p>按钮只改变当前页面的视觉状态，不会修改 DNS、GitHub 或任何账号设置。</p>
+            <button class="mode-button" id="modeButton" type="button">切换为 Focus Mode</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="shell">Codex Lab · web.mneux12130.cn · Static frontend test</div>
+  </footer>
+
+  <script>
+    const button = document.getElementById('modeButton');
+    const output = document.getElementById('consoleOutput');
+
+    button.addEventListener('click', () => {
+      const active = document.body.classList.toggle('focus-mode');
+      button.textContent = active ? '切换为 Default Mode' : '切换为 Focus Mode';
+      output.textContent = `status: online\nhosting: GitHub Pages\nmode: ${active ? 'focus' : 'default'}\nlocal exposure: none`;
+    });
+  </script>
 </body>
 </html>
