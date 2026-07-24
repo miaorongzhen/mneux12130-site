@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Codex Lab on web.mneux12130.cn">
-  <title>Codex Lab | 域名实验室</title>
+  <meta name="description" content="Codex AI Lab on web.mneux12130.cn">
+  <title>Codex AI Lab | 智能前端实验站</title>
   <style>
     :root {
-      color-scheme: light;
-      --paper: #f6f4ee;
-      --ink: #17201c;
-      --muted: #65716c;
-      --line: #d8d5cc;
-      --panel: #ffffff;
-      --green: #157a53;
-      --blue: #1e5b8f;
-      --coral: #c7553d;
-      --gold: #a46c18;
-      --shadow: 0 24px 70px rgba(28, 36, 32, .14);
+      color-scheme: dark;
+      --bg: #05070c;
+      --bg-soft: #0b1019;
+      --ink: #f3f7ff;
+      --muted: #9aa8bd;
+      --line: rgba(184, 207, 255, .18);
+      --panel: rgba(11, 17, 28, .72);
+      --panel-strong: rgba(14, 24, 40, .92);
+      --cyan: #6ee7ff;
+      --blue: #7aa7ff;
+      --violet: #b18cff;
+      --mint: #7dffc8;
+      --amber: #ffd28a;
+      --danger-safe: #ff8f8f;
+      --shadow: 0 30px 120px rgba(0, 0, 0, .42);
     }
 
     * { box-sizing: border-box; }
@@ -26,347 +30,705 @@
 
     body {
       margin: 0;
+      min-width: 320px;
       background:
-        linear-gradient(90deg, rgba(23,32,28,.055) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(23,32,28,.045) 1px, transparent 1px),
-        var(--paper);
-      background-size: 48px 48px;
+        radial-gradient(circle at 18% 8%, rgba(110, 231, 255, .18), transparent 30%),
+        radial-gradient(circle at 84% 16%, rgba(177, 140, 255, .16), transparent 34%),
+        radial-gradient(circle at 50% 92%, rgba(125, 255, 200, .10), transparent 34%),
+        var(--bg);
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.95), rgba(0,0,0,.18));
+      z-index: -2;
     }
 
     a { color: inherit; text-decoration: none; }
 
-    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    button { font: inherit; }
+
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 5;
-      background: rgba(246, 244, 238, .9);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(14px);
+      z-index: 20;
+      border-bottom: 1px solid rgba(184, 207, 255, .12);
+      background: rgba(5, 7, 12, .72);
+      backdrop-filter: blur(18px);
     }
 
     .nav {
-      min-height: 68px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
       font-weight: 780;
-      letter-spacing: 0;
+      white-space: nowrap;
     }
 
     .brand-mark {
-      width: 34px;
-      height: 34px;
+      width: 38px;
+      height: 38px;
       display: grid;
       place-items: center;
-      border: 1px solid #183c2c;
-      background: var(--ink);
-      color: #f8fff9;
-      font-size: 15px;
+      border: 1px solid rgba(110, 231, 255, .42);
+      background: linear-gradient(145deg, rgba(110, 231, 255, .18), rgba(177, 140, 255, .14));
+      box-shadow: inset 0 0 24px rgba(110, 231, 255, .16), 0 0 28px rgba(110, 231, 255, .12);
+      color: var(--cyan);
+      font-size: 13px;
     }
 
-    .nav-links { display: flex; align-items: center; gap: 20px; color: var(--muted); font-size: 14px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover { color: var(--cyan); }
+
+    .nav-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border: 1px solid rgba(125, 255, 200, .28);
+      color: var(--mint);
+      font-size: 12px;
+      font-weight: 760;
+      background: rgba(125, 255, 200, .08);
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 18px var(--mint);
+    }
 
     .hero {
-      min-height: calc(100vh - 68px);
+      position: relative;
+      min-height: calc(100vh - 72px);
       display: grid;
       align-items: center;
-      padding: 64px 0 54px;
+      padding: 72px 0 62px;
+      isolation: isolate;
+    }
+
+    #neuralCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: .88;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 36%;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      z-index: -1;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .75fr);
-      gap: clamp(28px, 5vw, 64px);
+      grid-template-columns: minmax(0, 1fr) minmax(330px, 430px);
+      gap: clamp(28px, 5vw, 72px);
       align-items: center;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      color: var(--green);
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--cyan);
       font-size: 13px;
-      font-weight: 760;
+      font-weight: 780;
       text-transform: uppercase;
     }
 
-    .pulse {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 6px #d9ebdf;
+    .scan {
+      width: 32px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan));
+      box-shadow: 0 0 16px var(--cyan);
     }
 
     h1 {
-      margin: 22px 0 20px;
-      max-width: 760px;
-      font-size: clamp(46px, 8.5vw, 96px);
-      line-height: .96;
+      margin: 0;
+      max-width: 820px;
+      font-size: clamp(48px, 8.2vw, 104px);
+      line-height: .94;
+      font-weight: 840;
       letter-spacing: 0;
-      font-weight: 830;
+    }
+
+    .glow-text {
+      color: transparent;
+      background: linear-gradient(105deg, #ffffff 0%, var(--cyan) 34%, var(--blue) 68%, var(--violet) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      text-shadow: 0 0 42px rgba(110, 231, 255, .20);
     }
 
     .lead {
-      max-width: 650px;
-      margin: 0;
-      color: var(--muted);
-      font-size: clamp(18px, 2.4vw, 24px);
-      line-height: 1.65;
+      max-width: 690px;
+      margin: 24px 0 0;
+      color: #c8d3e4;
+      font-size: clamp(17px, 2.2vw, 22px);
+      line-height: 1.72;
     }
 
-    .domain { color: var(--blue); font-weight: 760; overflow-wrap: anywhere; }
-
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
 
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
+      min-height: 48px;
       padding: 0 18px;
-      border: 1px solid var(--ink);
-      background: var(--ink);
-      color: #fff;
-      font-weight: 720;
+      border: 1px solid rgba(110, 231, 255, .52);
+      background: linear-gradient(135deg, rgba(110, 231, 255, .20), rgba(122, 167, 255, .22));
+      color: #f8fcff;
+      font-weight: 760;
       font-size: 14px;
+      box-shadow: 0 0 38px rgba(110, 231, 255, .12);
     }
 
-    .button.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
-
-
-    .status-panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      padding: 24px;
+    .button.secondary {
+      border-color: rgba(184, 207, 255, .22);
+      background: rgba(255, 255, 255, .04);
+      color: #dce8ff;
+      box-shadow: none;
     }
 
-    .panel-head { display: flex; justify-content: space-between; gap: 16px; align-items: start; margin-bottom: 22px; }
+    .intel-panel {
+      border: 1px solid rgba(184, 207, 255, .18);
+      background: linear-gradient(180deg, rgba(12, 18, 30, .78), rgba(6, 10, 18, .92));
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.08);
+      padding: 22px;
+      backdrop-filter: blur(20px);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
 
     .panel-title { margin: 0; font-size: 20px; line-height: 1.2; }
 
-    .badge { color: var(--green); border: 1px solid #b9dcc8; background: #eef8f1; padding: 6px 9px; font-size: 12px; font-weight: 760; white-space: nowrap; }
+    .panel-subtitle { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
 
-    .metrics { display: grid; gap: 12px; }
-
-    .metric { display: grid; grid-template-columns: 98px minmax(0, 1fr); gap: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
-
-    .metric dt { color: var(--muted); font-size: 13px; }
-
-    .metric dd { margin: 0; font-weight: 720; overflow-wrap: anywhere; }
-
-    .diagram {
-      margin-top: 24px;
-      border: 1px solid var(--line);
-      background: #fbfaf6;
-      padding: 18px;
+    .chip {
+      padding: 7px 9px;
+      border: 1px solid rgba(125, 255, 200, .35);
+      color: var(--mint);
+      background: rgba(125, 255, 200, .08);
+      font-size: 12px;
+      font-weight: 780;
+      white-space: nowrap;
     }
 
-    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .signal-stack { display: grid; gap: 14px; margin-top: 20px; }
 
-    .flow-step { min-height: 88px; border: 1px solid var(--line); padding: 13px; background: #fff; }
+    .signal {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr) 42px;
+      align-items: center;
+      gap: 12px;
+      color: #dfeaff;
+      font-size: 13px;
+    }
 
-    .flow-step strong { display: block; margin-bottom: 8px; }
+    .bar {
+      height: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(184, 207, 255, .12);
+      background: rgba(255,255,255,.05);
+    }
 
-    .flow-step span { color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--value);
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      box-shadow: 0 0 20px rgba(110, 231, 255, .32);
+    }
 
-    section { padding: 72px 0; border-top: 1px solid var(--line); }
+    .terminal {
+      margin-top: 22px;
+      border: 1px solid rgba(184, 207, 255, .16);
+      background: rgba(0, 0, 0, .34);
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #caeaff;
+      min-height: 145px;
+    }
 
-    .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 28px; }
+    .terminal p { margin: 0; }
 
-    h2 { margin: 0; font-size: clamp(30px, 4.4vw, 52px); line-height: 1.05; letter-spacing: 0; }
+    .terminal .muted { color: #7d8ea7; }
 
-    .section-head p { margin: 0; max-width: 430px; color: var(--muted); line-height: 1.7; }
+    section {
+      padding: 78px 0;
+      border-top: 1px solid rgba(184, 207, 255, .10);
+    }
 
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 30px;
+    }
 
-    .card { border: 1px solid var(--line); background: rgba(255,255,255,.72); padding: 22px; min-height: 190px; }
+    h2 {
+      margin: 0;
+      max-width: 680px;
+      font-size: clamp(31px, 4.8vw, 58px);
+      line-height: 1.04;
+      font-weight: 810;
+      letter-spacing: 0;
+    }
 
-    .card-kicker { color: var(--coral); font-size: 13px; font-weight: 780; }
+    .section-head p {
+      margin: 0;
+      max-width: 430px;
+      color: var(--muted);
+      line-height: 1.72;
+    }
 
-    .card h3 { margin: 18px 0 10px; font-size: 22px; letter-spacing: 0; }
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
 
-    .card p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .capability-card {
+      position: relative;
+      min-height: 230px;
+      overflow: hidden;
+      border: 1px solid rgba(184, 207, 255, .14);
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+      padding: 22px;
+    }
 
-    .lab-console {
+    .capability-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), transparent 72%);
+      opacity: .76;
+    }
+
+    .card-index { color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; }
+
+    .capability-card h3 { margin: 28px 0 12px; font-size: 22px; letter-spacing: 0; }
+
+    .capability-card p { margin: 0; color: var(--muted); line-height: 1.65; }
+
+    .workflow {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
+    }
+
+    .workflow-panel, .sandbox-panel {
+      border: 1px solid rgba(184, 207, 255, .14);
+      background: var(--panel);
+      padding: 24px;
+    }
+
+    .step-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+
+    .step-list li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(184, 207, 255, .10);
+    }
+
+    .step-list li:last-child { border-bottom: 0; }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(110, 231, 255, .36);
+      color: var(--cyan);
+      font-size: 13px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    .step-list strong { display: block; margin-bottom: 5px; }
+
+    .step-list span { color: var(--muted); line-height: 1.55; }
+
+    .sandbox-panel h3, .workflow-panel h3 { margin: 0 0 16px; font-size: 24px; }
+
+    .sandbox-panel p { color: var(--muted); line-height: 1.65; margin: 0 0 18px; }
+
+    .mode-toggle {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid rgba(110, 231, 255, .45);
+      background: rgba(110, 231, 255, .10);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 760;
+    }
+
+    .status-readout {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .readout-item {
+      border: 1px solid rgba(184, 207, 255, .12);
+      background: rgba(255,255,255,.035);
+      padding: 13px;
+      min-height: 78px;
+    }
+
+    .readout-item span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+
+    .readout-item strong { font-size: 15px; overflow-wrap: anywhere; }
+
+    .safety-band {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 18px;
       align-items: stretch;
     }
 
-    .console-panel {
-      border: 1px solid #26322d;
-      background: #16211d;
-      color: #e8f4ec;
-      padding: 22px;
-      min-height: 260px;
-      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    .safety-copy {
+      border: 1px solid rgba(125, 255, 200, .16);
+      background: linear-gradient(180deg, rgba(125, 255, 200, .08), rgba(255,255,255,.025));
+      padding: 24px;
     }
 
-    .console-line { color: #a7d9bd; margin: 0 0 12px; }
+    .safety-copy h2 { font-size: clamp(30px, 4vw, 48px); }
 
-    .console-output { margin: 0; white-space: pre-wrap; line-height: 1.65; color: #f3f7f1; }
+    .safety-copy p { color: #b9c7d8; line-height: 1.7; }
 
-    .toggle-panel {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      padding: 22px;
+    .guardrails {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
 
-    .toggle-panel h3 { margin: 0 0 12px; font-size: 24px; }
+    .guardrail {
+      border: 1px solid rgba(184, 207, 255, .12);
+      background: rgba(255,255,255,.035);
+      padding: 18px;
+      min-height: 128px;
+    }
 
-    .toggle-panel p { margin: 0 0 22px; color: var(--muted); line-height: 1.7; }
+    .guardrail strong { display: block; margin-bottom: 9px; color: #eff7ff; }
 
-    .mode-button { cursor: pointer; width: 100%; border: 1px solid var(--ink); background: var(--ink); color: white; min-height: 48px; font-weight: 760; }
+    .guardrail span { color: var(--muted); line-height: 1.55; }
 
-    body.focus-mode { --paper: #eef5f2; --green: #0f6f5c; --blue: #254f7f; --coral: #9d4b36; }
+    footer.site-footer {
+      padding: 34px 0 42px;
+      border-top: 1px solid rgba(184, 207, 255, .12);
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-    footer.site-footer { padding: 34px 0; color: var(--muted); border-top: 1px solid var(--line); font-size: 14px; }
+    body.precision-mode { --cyan: #7dffc8; --blue: #6ee7ff; --violet: #ffd28a; }
 
-    @media (max-width: 860px) {
-      .hero-grid, .lab-console { grid-template-columns: 1fr; }
-      .cards, .flow { grid-template-columns: 1fr; }
+    @media (max-width: 980px) {
+      .hero-grid, .workflow, .safety-band { grid-template-columns: 1fr; }
+      .capability-grid { grid-template-columns: repeat(2, 1fr); }
       .section-head { display: block; }
       .section-head p { margin-top: 14px; }
-      .nav-links { display: none; }
     }
 
-    @media (max-width: 520px) {
-      .shell { width: min(100% - 28px, 1120px); }
-      .hero { padding-top: 44px; }
-      .metric { grid-template-columns: 1fr; gap: 6px; }
-      .button { width: 100%; }
+    @media (max-width: 680px) {
+      .shell { width: min(100% - 28px, 1180px); }
+      .nav-links { display: none; }
+      .hero { padding-top: 48px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .capability-grid, .guardrails, .status-readout { grid-template-columns: 1fr; }
+      .signal { grid-template-columns: 76px minmax(0, 1fr) 38px; font-size: 12px; }
+      .actions .button { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      #neuralCanvas { display: none; }
     }
   </style>
 </head>
 <body>
   <header class="topbar">
     <nav class="shell nav" aria-label="Primary">
-      <a class="brand" href="#top" aria-label="Codex Lab home">
-        <span class="brand-mark">CL</span>
-        <span>Codex Lab</span>
+      <a class="brand" href="#top" aria-label="Codex AI Lab home">
+        <span class="brand-mark">AI</span>
+        <span>Codex AI Lab</span>
       </a>
       <div class="nav-links">
-        <a href="#status">状态</a>
-        <a href="#experiments">实验</a>
-        <a href="#console">控制台</a>
+        <a href="#capabilities">智能能力</a>
+        <a href="#workflow">协作流程</a>
+        <a href="#safety">安全边界</a>
       </div>
+      <div class="nav-status"><span class="dot" aria-hidden="true"></span> STATIC ONLINE</div>
     </nav>
   </header>
 
   <main id="top">
-    <div class="shell hero">
-      <div class="hero-grid">
+    <section class="hero" aria-label="Codex AI hero">
+      <canvas id="neuralCanvas" aria-hidden="true"></canvas>
+      <div class="shell hero-grid">
         <div>
-          <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> GitHub Pages online</div>
-          <h1>你的域名现在有前端空间了。</h1>
-          <p class="lead">这里是 <span class="domain">web.mneux12130.cn</span> 的第一个小型前端实验室。它由 GitHub Pages 托管，只运行静态网页，不连接你的本地电脑。</p>
+          <div class="eyebrow"><span class="scan" aria-hidden="true"></span> Autonomous coding intelligence</div>
+          <h1><span class="glow-text">Codex</span> 正在把想法变成可运行的前端。</h1>
+          <p class="lead">这是部署在 <strong>web.mneux12130.cn</strong> 的 AI 前端测试站。它展示 Codex 的理解、规划、实现与验证能力，同时保持纯静态托管，不连接本地电脑，不暴露私人系统。</p>
           <div class="actions">
-            <a class="button" href="#experiments">查看实验台</a>
-            <a class="button secondary" href="https://github.com/miaorongzhen/mneux12130-site" target="_blank" rel="noreferrer">查看源码</a>
+            <a class="button" href="#capabilities">查看智能能力</a>
+            <a class="button secondary" href="https://github.com/miaorongzhen/mneux12130-site" target="_blank" rel="noreferrer">打开 GitHub 仓库</a>
           </div>
         </div>
 
-        <aside class="status-panel" id="status" aria-label="Domain status">
-          <div class="panel-head">
-            <h2 class="panel-title">连接状态</h2>
-            <span class="badge">LIVE</span>
-          </div>
-          <dl class="metrics">
-            <div class="metric"><dt>域名</dt><dd>mneux12130.cn</dd></div>
-            <div class="metric"><dt>子域名</dt><dd>web.mneux12130.cn</dd></div>
-            <div class="metric"><dt>托管</dt><dd>GitHub Pages</dd></div>
-            <div class="metric"><dt>解析</dt><dd>CNAME -> miaorongzhen.github.io</dd></div>
-          </dl>
-          <div class="diagram" aria-label="DNS flow">
-            <div class="flow">
-              <div class="flow-step"><strong>1. 访问</strong><span>浏览器请求你的子域名。</span></div>
-              <div class="flow-step"><strong>2. 解析</strong><span>阿里云 DNS 指向 GitHub Pages。</span></div>
-              <div class="flow-step"><strong>3. 返回</strong><span>GitHub Pages 返回这个前端页面。</span></div>
+        <aside class="intel-panel" aria-label="AI runtime status">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Intelligence Core</h2>
+              <p class="panel-subtitle">Static interface simulation</p>
             </div>
+            <span class="chip">VERIFIED</span>
+          </div>
+          <div class="signal-stack">
+            <div class="signal"><span>Reasoning</span><div class="bar" style="--value: 94%"><span></span></div><strong>94</strong></div>
+            <div class="signal"><span>Execution</span><div class="bar" style="--value: 88%"><span></span></div><strong>88</strong></div>
+            <div class="signal"><span>Safety</span><div class="bar" style="--value: 100%"><span></span></div><strong>100</strong></div>
+            <div class="signal"><span>Deploy</span><div class="bar" style="--value: 91%"><span></span></div><strong>91</strong></div>
+          </div>
+          <div class="terminal" id="terminalOutput" aria-live="polite">
+            <p><span class="muted">$</span> codex inspect web.mneux12130.cn</p>
+            <p>domain: connected</p>
+            <p>host: GitHub Pages</p>
+            <p>mode: advanced interface</p>
+            <p>safety: static-only</p>
           </div>
         </aside>
       </div>
-    </div>
+    </section>
 
-    <section id="experiments">
+    <section id="capabilities">
       <div class="shell">
         <div class="section-head">
-          <h2>可以继续试什么？</h2>
-          <p>这个页面适合做前端设计、交互组件、作品入口和公开演示。凡是能在浏览器里运行的静态内容，都可以逐步放上来。</p>
+          <h2>不是普通网页，是一个 AI 协作界面原型。</h2>
+          <p>页面用高级、克制、偏未来感的视觉语言，表达 Codex 从需求到交付的智能工作流。</p>
         </div>
-        <div class="cards">
-          <article class="card">
-            <span class="card-kicker">01 / UI</span>
-            <h3>视觉系统</h3>
-            <p>练习配色、排版、响应式布局和页面气质，让域名从测试页变成一个可展示的入口。</p>
+        <div class="capability-grid">
+          <article class="capability-card">
+            <span class="card-index">01 / UNDERSTAND</span>
+            <h3>理解意图</h3>
+            <p>把一句自然语言需求拆成目标、边界、风险和可验证结果。</p>
           </article>
-          <article class="card">
-            <span class="card-kicker">02 / JS</span>
-            <h3>交互组件</h3>
-            <p>添加按钮、切换状态、表单、计数器、模拟器或小工具，全部在前端运行。</p>
+          <article class="capability-card">
+            <span class="card-index">02 / PLAN</span>
+            <h3>规划路线</h3>
+            <p>先读上下文，再选择最小而完整的执行路径，避免把事情做偏。</p>
           </article>
-          <article class="card">
-            <span class="card-kicker">03 / LAB</span>
-            <h3>部署实验</h3>
-            <p>测试 GitHub Pages、DNS、HTTPS、缓存刷新和以后可能接入的前端框架。</p>
+          <article class="capability-card">
+            <span class="card-index">03 / BUILD</span>
+            <h3>生成前端</h3>
+            <p>写出可访问、响应式、有交互的静态页面，并保留清晰结构。</p>
+          </article>
+          <article class="capability-card">
+            <span class="card-index">04 / VERIFY</span>
+            <h3>验证结果</h3>
+            <p>通过本地预览、公网页面、DOM 检查和移动端布局确认成果。</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="console">
-      <div class="shell">
-        <div class="section-head">
-          <h2>小控制台</h2>
-          <p>这个交互不需要后端。点击按钮会改变页面状态，用来确认 JavaScript 已经在浏览器里运行。</p>
+    <section id="workflow">
+      <div class="shell workflow">
+        <div class="workflow-panel">
+          <h3>Codex 工作流</h3>
+          <ol class="step-list">
+            <li><span class="step-number">01</span><div><strong>接收需求</strong><span>用户提出方向，Codex 判断目标、授权和安全边界。</span></div></li>
+            <li><span class="step-number">02</span><div><strong>读取项目</strong><span>检查仓库状态、页面结构和部署配置，避免误改关键文件。</span></div></li>
+            <li><span class="step-number">03</span><div><strong>实现界面</strong><span>在静态页面内完成视觉、内容、交互和响应式布局。</span></div></li>
+            <li><span class="step-number">04</span><div><strong>验证发布</strong><span>只在获得明确允许后提交推送，并检查公网 HTTPS 结果。</span></div></li>
+          </ol>
         </div>
-        <div class="lab-console">
-          <div class="console-panel" aria-live="polite">
-            <p class="console-line">$ dig web.mneux12130.cn</p>
-            <pre class="console-output" id="consoleOutput">status: online
-hosting: GitHub Pages
-mode: default
-local exposure: none</pre>
+        <div class="sandbox-panel">
+          <h3>前端智能沙盒</h3>
+          <p>点击按钮会切换页面的视觉参数和状态文字，只在当前浏览器内运行，不写入服务器、不改 DNS、不触碰 GitHub 账号设置。</p>
+          <button class="mode-toggle" id="modeButton" type="button">切换为 Precision Mode</button>
+          <div class="status-readout">
+            <div class="readout-item"><span>Domain</span><strong>web.mneux12130.cn</strong></div>
+            <div class="readout-item"><span>Hosting</span><strong>GitHub Pages</strong></div>
+            <div class="readout-item"><span>Runtime</span><strong id="runtimeMode">Advanced</strong></div>
+            <div class="readout-item"><span>Exposure</span><strong>Local: none</strong></div>
           </div>
-          <div class="toggle-panel">
-            <h3>切换实验模式</h3>
-            <p>按钮只改变当前页面的视觉状态，不会修改 DNS、GitHub 或任何账号设置。</p>
-            <button class="mode-button" id="modeButton" type="button">切换为 Focus Mode</button>
-          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="safety">
+      <div class="shell safety-band">
+        <div class="safety-copy">
+          <h2>高级感可以有，安全边界必须更清楚。</h2>
+          <p>这个站点只托管静态 HTML、CSS 和 JavaScript。访问者看到的是 GitHub Pages 返回的网页，不会连到你的电脑，也不会获得你的本地文件或端口。</p>
+        </div>
+        <div class="guardrails">
+          <div class="guardrail"><strong>不放密钥</strong><span>页面中不写 API Key、token、账号密码或个人隐私。</span></div>
+          <div class="guardrail"><strong>不做攻击</strong><span>不进行扫描、压测、爆破、探测或任何破坏性测试。</span></div>
+          <div class="guardrail"><strong>静态托管</strong><span>当前没有数据库、登录、后端服务或用户提交入口。</span></div>
+          <div class="guardrail"><strong>发布确认</strong><span>每次公网发布前都先确认改动，再获得明确允许后推送。</span></div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="shell">Codex Lab · web.mneux12130.cn · Static frontend test</div>
+    <div class="shell">Codex AI Lab · web.mneux12130.cn · Advanced static frontend test</div>
   </footer>
 
   <script>
+    const canvas = document.getElementById('neuralCanvas');
+    const ctx = canvas.getContext('2d');
     const button = document.getElementById('modeButton');
-    const output = document.getElementById('consoleOutput');
+    const runtimeMode = document.getElementById('runtimeMode');
+    const terminalOutput = document.getElementById('terminalOutput');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let particles = [];
+    let pointer = { x: 0, y: 0, active: false };
+
+    function resizeCanvas() {
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.floor(rect.width * ratio));
+      canvas.height = Math.max(1, Math.floor(rect.height * ratio));
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      const count = Math.max(48, Math.min(110, Math.floor(rect.width / 13)));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * rect.width,
+        y: Math.random() * rect.height,
+        vx: (Math.random() - .5) * .34,
+        vy: (Math.random() - .5) * .34,
+        r: Math.random() * 1.8 + .8
+      }));
+    }
+
+    function drawNetwork() {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      ctx.clearRect(0, 0, width, height);
+      const maxDistance = Math.min(160, width * .18);
+
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i];
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < maxDistance) {
+            const alpha = (1 - dist / maxDistance) * .26;
+            ctx.strokeStyle = `rgba(110, 231, 255, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      if (pointer.active) {
+        const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 190);
+        glow.addColorStop(0, 'rgba(177, 140, 255, .28)');
+        glow.addColorStop(1, 'rgba(177, 140, 255, 0)');
+        ctx.fillStyle = glow;
+        ctx.fillRect(pointer.x - 190, pointer.y - 190, 380, 380);
+      }
+
+      for (const p of particles) {
+        ctx.fillStyle = 'rgba(235, 248, 255, .82)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (!reduceMotion) requestAnimationFrame(drawNetwork);
+    }
 
     button.addEventListener('click', () => {
-      const active = document.body.classList.toggle('focus-mode');
-      button.textContent = active ? '切换为 Default Mode' : '切换为 Focus Mode';
-      output.textContent = `status: online\nhosting: GitHub Pages\nmode: ${active ? 'focus' : 'default'}\nlocal exposure: none`;
+      const active = document.body.classList.toggle('precision-mode');
+      button.textContent = active ? '切换为 Advanced Mode' : '切换为 Precision Mode';
+      runtimeMode.textContent = active ? 'Precision' : 'Advanced';
+      terminalOutput.innerHTML = active
+        ? '<p><span class="muted">$</span> codex switch precision</p><p>mode: precision</p><p>focus: verification-first</p><p>safety: static-only</p><p>release gate: explicit permission</p>'
+        : '<p><span class="muted">$</span> codex inspect web.mneux12130.cn</p><p>domain: connected</p><p>host: GitHub Pages</p><p>mode: advanced interface</p><p>safety: static-only</p>';
     });
+
+    window.addEventListener('pointermove', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top, active: true };
+    });
+
+    window.addEventListener('pointerleave', () => { pointer.active = false; });
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawNetwork();
   </script>
 </body>
 </html>
