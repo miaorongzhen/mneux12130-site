@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="mneux12130.cn domain connection test">
+  <title>域名连接成功</title>
+  <style>
+    :root { color-scheme: light; --ink:#17211c; --muted:#5f6963; --paper:#f5f7f4; --line:#d9dfda; --green:#16794b; --blue:#215c99; --coral:#d35a40; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px; background:var(--paper); color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { width:min(760px,100%); border-top:6px solid var(--green); border-bottom:1px solid var(--line); padding:clamp(32px,7vw,72px) 0 28px; }
+    .status { display:inline-flex; align-items:center; gap:10px; color:var(--green); font-size:14px; font-weight:700; }
+    .dot { width:11px; height:11px; border-radius:50%; background:var(--green); box-shadow:0 0 0 5px #dcefe4; }
+    h1 { margin:24px 0 14px; max-width:680px; font-size:clamp(40px,8vw,82px); line-height:1.02; letter-spacing:0; font-weight:750; }
+    .lead { margin:0; max-width:620px; color:var(--muted); font-size:clamp(18px,2.8vw,24px); line-height:1.65; }
+    .domain { color:var(--blue); overflow-wrap:anywhere; }
+    dl { margin:44px 0 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--line); }
+    div.item { padding:18px 18px 18px 0; border-bottom:1px solid var(--line); }
+    dt { color:var(--muted); font-size:13px; }
+    dd { margin:7px 0 0; font-size:15px; font-weight:650; overflow-wrap:anywhere; }
+    .github { color:var(--coral); }
+    footer { margin-top:28px; color:var(--muted); font-size:13px; }
+    @media (max-width:620px) { dl { grid-template-columns:1fr; } div.item { padding-right:0; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="status"><span class="dot" aria-hidden="true"></span>ONLINE · 连接正常</div>
+    <h1>域名连接成功。</h1>
+    <p class="lead">你正在访问 <strong class="domain">web.mneux12130.cn</strong>。这个测试页面由 GitHub Pages 安全托管，没有连接到本地电脑。</p>
+    <dl>
+      <div class="item"><dt>域名</dt><dd>mneux12130.cn</dd></div>
+      <div class="item"><dt>托管</dt><dd class="github">GitHub Pages</dd></div>
+      <div class="item"><dt>状态</dt><dd>首次部署测试</dd></div>
+    </dl>
+    <footer>Domain test page · 2026</footer>
+  </main>
+</body>
+</html>
