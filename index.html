@@ -530,7 +530,7 @@
           <p class="lead">这是部署在 <strong>web.mneux12130.cn</strong> 的 AI 前端测试站。它展示 Codex 的理解、规划、实现与验证能力，同时保持纯静态托管，不连接本地电脑，不暴露私人系统。</p>
           <div class="actions">
             <a class="button" href="#capabilities">查看智能能力</a>
-            <a class="button secondary" href="https://github.com/miaorongzhen/mneux12130-site" target="_blank" rel="noreferrer">打开 GitHub 仓库</a>
+            <a class="button secondary" href="#safety">查看安全边界</a>
           </div>
         </div>
 
@@ -551,7 +551,7 @@
           <div class="terminal" id="terminalOutput" aria-live="polite">
             <p><span class="muted">$</span> codex inspect web.mneux12130.cn</p>
             <p>domain: connected</p>
-            <p>host: GitHub Pages</p>
+            <p>host: static hosting</p>
             <p>mode: advanced interface</p>
             <p>safety: static-only</p>
           </div>
@@ -603,11 +603,11 @@
         </div>
         <div class="sandbox-panel">
           <h3>前端智能沙盒</h3>
-          <p>点击按钮会切换页面的视觉参数和状态文字，只在当前浏览器内运行，不写入服务器、不改 DNS、不触碰 GitHub 账号设置。</p>
+          <p>点击按钮会切换页面的视觉参数和状态文字，只在当前浏览器内运行，不写入服务器、不改 DNS、不触碰账号设置。</p>
           <button class="mode-toggle" id="modeButton" type="button">切换为 Precision Mode</button>
           <div class="status-readout">
             <div class="readout-item"><span>Domain</span><strong>web.mneux12130.cn</strong></div>
-            <div class="readout-item"><span>Hosting</span><strong>GitHub Pages</strong></div>
+            <div class="readout-item"><span>Hosting</span><strong>Static hosting</strong></div>
             <div class="readout-item"><span>Runtime</span><strong id="runtimeMode">Advanced</strong></div>
             <div class="readout-item"><span>Exposure</span><strong>Local: none</strong></div>
           </div>
@@ -619,7 +619,7 @@
       <div class="shell safety-band">
         <div class="safety-copy">
           <h2>高级感可以有，安全边界必须更清楚。</h2>
-          <p>这个站点只托管静态 HTML、CSS 和 JavaScript。访问者看到的是 GitHub Pages 返回的网页，不会连到你的电脑，也不会获得你的本地文件或端口。</p>
+          <p>这个站点只托管静态 HTML、CSS 和 JavaScript。访问者看到的是静态托管服务返回的网页，不会连到你的电脑，也不会获得你的本地文件或端口。</p>
         </div>
         <div class="guardrails">
           <div class="guardrail"><strong>不放密钥</strong><span>页面中不写 API Key、token、账号密码或个人隐私。</span></div>
@@ -717,7 +717,7 @@
       runtimeMode.textContent = active ? 'Precision' : 'Advanced';
       terminalOutput.innerHTML = active
         ? '<p><span class="muted">$</span> codex switch precision</p><p>mode: precision</p><p>focus: verification-first</p><p>safety: static-only</p><p>release gate: explicit permission</p>'
-        : '<p><span class="muted">$</span> codex inspect web.mneux12130.cn</p><p>domain: connected</p><p>host: GitHub Pages</p><p>mode: advanced interface</p><p>safety: static-only</p>';
+        : '<p><span class="muted">$</span> codex inspect web.mneux12130.cn</p><p>domain: connected</p><p>host: static hosting</p><p>mode: advanced interface</p><p>safety: static-only</p>';
     });
 
     window.addEventListener('pointermove', (event) => {
