@@ -3,41 +3,45 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Codex AI Lab on web.mneux12130.cn">
-  <title>Codex AI Lab | 智能前端实验站</title>
+  <meta name="description" content="山门三十日 - 文字修仙原型">
+  <title>山门三十日</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #05070c;
-      --bg-soft: #0b1019;
-      --ink: #f3f7ff;
-      --muted: #9aa8bd;
-      --line: rgba(184, 207, 255, .18);
-      --panel: rgba(11, 17, 28, .72);
-      --panel-strong: rgba(14, 24, 40, .92);
-      --cyan: #6ee7ff;
-      --blue: #7aa7ff;
-      --violet: #b18cff;
-      --mint: #7dffc8;
-      --amber: #ffd28a;
-      --danger-safe: #ff8f8f;
-      --shadow: 0 30px 120px rgba(0, 0, 0, .42);
+      --bg: #090b0d;
+      --bg-2: #101417;
+      --panel: rgba(20, 25, 28, .88);
+      --panel-2: rgba(29, 35, 39, .9);
+      --ink: #f2efe3;
+      --muted: #a9aa9f;
+      --faint: #72776f;
+      --line: rgba(231, 219, 178, .18);
+      --gold: #d7b568;
+      --gold-2: #f0d98d;
+      --jade: #66c59a;
+      --red: #d86d61;
+      --blue: #86a7d9;
+      --paper: #e8dfc5;
+      --paper-ink: #242118;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .42);
+      --radius: 8px;
     }
 
     * { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; }
 
     body {
       margin: 0;
       min-width: 320px;
       background:
-        radial-gradient(circle at 18% 8%, rgba(110, 231, 255, .18), transparent 30%),
-        radial-gradient(circle at 84% 16%, rgba(177, 140, 255, .16), transparent 34%),
-        radial-gradient(circle at 50% 92%, rgba(125, 255, 200, .10), transparent 34%),
+        linear-gradient(120deg, rgba(9, 11, 13, .88), rgba(9, 11, 13, .56)),
+        radial-gradient(circle at 18% 10%, rgba(215, 181, 104, .16), transparent 28%),
+        radial-gradient(circle at 86% 18%, rgba(102, 197, 154, .12), transparent 30%),
+        radial-gradient(circle at 50% 105%, rgba(134, 167, 217, .10), transparent 28%),
         var(--bg);
       color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", "Segoe UI", Arial, sans-serif;
       letter-spacing: 0;
       overflow-x: hidden;
     }
@@ -46,689 +50,915 @@
       content: "";
       position: fixed;
       inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,.95), rgba(0,0,0,.18));
       z-index: -2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(231, 219, 178, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(231, 219, 178, .035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.25));
     }
 
-    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
 
-    button { font: inherit; }
+    button {
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+    }
 
-    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .app {
+      width: min(1420px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 18px 0 28px;
+    }
 
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      border-bottom: 1px solid rgba(184, 207, 255, .12);
-      background: rgba(5, 7, 12, .72);
-      backdrop-filter: blur(18px);
-    }
-
-    .nav {
-      min-height: 72px;
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
       align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+      min-height: 64px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-weight: 780;
-      white-space: nowrap;
+      min-width: 0;
     }
 
-    .brand-mark {
-      width: 38px;
-      height: 38px;
+    .seal {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(215, 181, 104, .42);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(145deg, rgba(215, 181, 104, .22), rgba(102, 197, 154, .08)),
+        rgba(10, 12, 13, .84);
       display: grid;
       place-items: center;
-      border: 1px solid rgba(110, 231, 255, .42);
-      background: linear-gradient(145deg, rgba(110, 231, 255, .18), rgba(177, 140, 255, .14));
-      box-shadow: inset 0 0 24px rgba(110, 231, 255, .16), 0 0 28px rgba(110, 231, 255, .12);
-      color: var(--cyan);
-      font-size: 13px;
+      box-shadow: inset 0 0 28px rgba(215, 181, 104, .10);
     }
 
-    .nav-links {
+    .seal svg { width: 28px; height: 28px; }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(24px, 4.6vw, 42px);
+      line-height: 1;
+      font-weight: 900;
+      color: var(--gold-2);
+    }
+
+    .brand p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-actions {
       display: flex;
       align-items: center;
-      gap: 22px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .nav-links a:hover { color: var(--cyan); }
-
-    .nav-status {
-      display: inline-flex;
-      align-items: center;
       gap: 8px;
-      padding: 8px 11px;
-      border: 1px solid rgba(125, 255, 200, .28);
-      color: var(--mint);
-      font-size: 12px;
-      font-weight: 760;
-      background: rgba(125, 255, 200, .08);
-      white-space: nowrap;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--mint);
-      box-shadow: 0 0 18px var(--mint);
-    }
-
-    .hero {
-      position: relative;
-      min-height: calc(100vh - 72px);
+    .layout {
       display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 340px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+
+    .panel.pad { padding: 16px; }
+
+    .section-title {
+      display: flex;
       align-items: center;
-      padding: 72px 0 62px;
-      isolation: isolate;
-    }
-
-    #neuralCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: .88;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 36%;
-      background: linear-gradient(to bottom, transparent, var(--bg));
-      z-index: -1;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(330px, 430px);
-      gap: clamp(28px, 5vw, 72px);
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
+      justify-content: space-between;
       gap: 10px;
-      margin-bottom: 20px;
-      color: var(--cyan);
-      font-size: 13px;
-      font-weight: 780;
+      margin: 0 0 12px;
+      color: var(--gold-2);
+      font-size: 14px;
+      font-weight: 900;
       text-transform: uppercase;
     }
 
-    .scan {
-      width: 32px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--cyan));
-      box-shadow: 0 0 16px var(--cyan);
-    }
-
-    h1 {
-      margin: 0;
-      max-width: 820px;
-      font-size: clamp(48px, 8.2vw, 104px);
-      line-height: .94;
-      font-weight: 840;
-      letter-spacing: 0;
-    }
-
-    .glow-text {
-      color: transparent;
-      background: linear-gradient(105deg, #ffffff 0%, var(--cyan) 34%, var(--blue) 68%, var(--violet) 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      text-shadow: 0 0 42px rgba(110, 231, 255, .20);
-    }
-
-    .lead {
-      max-width: 690px;
-      margin: 24px 0 0;
-      color: #c8d3e4;
-      font-size: clamp(17px, 2.2vw, 22px);
-      line-height: 1.72;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 34px;
-    }
-
-    .button {
+    .pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 48px;
-      padding: 0 18px;
-      border: 1px solid rgba(110, 231, 255, .52);
-      background: linear-gradient(135deg, rgba(110, 231, 255, .20), rgba(122, 167, 255, .22));
-      color: #f8fcff;
-      font-weight: 760;
-      font-size: 14px;
-      box-shadow: 0 0 38px rgba(110, 231, 255, .12);
-    }
-
-    .button.secondary {
-      border-color: rgba(184, 207, 255, .22);
-      background: rgba(255, 255, 255, .04);
-      color: #dce8ff;
-      box-shadow: none;
-    }
-
-    .intel-panel {
-      border: 1px solid rgba(184, 207, 255, .18);
-      background: linear-gradient(180deg, rgba(12, 18, 30, .78), rgba(6, 10, 18, .92));
-      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.08);
-      padding: 22px;
-      backdrop-filter: blur(20px);
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 16px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .panel-title { margin: 0; font-size: 20px; line-height: 1.2; }
-
-    .panel-subtitle { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
-
-    .chip {
-      padding: 7px 9px;
-      border: 1px solid rgba(125, 255, 200, .35);
-      color: var(--mint);
-      background: rgba(125, 255, 200, .08);
+      min-height: 28px;
+      padding: 0 9px;
+      border: 1px solid rgba(215, 181, 104, .28);
+      border-radius: var(--radius);
+      color: var(--gold-2);
+      background: rgba(215, 181, 104, .08);
       font-size: 12px;
-      font-weight: 780;
+      font-weight: 800;
       white-space: nowrap;
     }
 
-    .signal-stack { display: grid; gap: 14px; margin-top: 20px; }
-
-    .signal {
-      display: grid;
-      grid-template-columns: 86px minmax(0, 1fr) 42px;
-      align-items: center;
-      gap: 12px;
-      color: #dfeaff;
+    .btn {
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid rgba(215, 181, 104, .32);
+      border-radius: var(--radius);
+      background: rgba(215, 181, 104, .12);
+      color: var(--gold-2);
       font-size: 13px;
+      font-weight: 900;
+      transition: transform .14s ease, border-color .14s ease, background .14s ease;
+    }
+
+    .btn:hover, .choice:hover {
+      transform: translateY(-1px);
+      border-color: rgba(240, 217, 141, .64);
+      background: rgba(215, 181, 104, .18);
+    }
+
+    .btn.primary {
+      border-color: rgba(102, 197, 154, .45);
+      background: rgba(102, 197, 154, .18);
+      color: #b8f0d2;
+    }
+
+    .btn.danger {
+      border-color: rgba(216, 109, 97, .42);
+      background: rgba(216, 109, 97, .12);
+      color: #ffb4aa;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 210px;
+      padding: 20px;
+      background:
+        linear-gradient(120deg, rgba(12, 16, 17, .86), rgba(12, 16, 17, .52)),
+        radial-gradient(circle at 70% 10%, rgba(215, 181, 104, .22), transparent 32%),
+        linear-gradient(145deg, rgba(52, 72, 62, .68), rgba(35, 38, 43, .92));
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(232, 223, 197, .14);
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+
+    .mountains {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 58%;
+      min-width: 360px;
+      opacity: .72;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+    }
+
+    .hero-text h2 {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 4.7vw, 58px);
+      line-height: 1.08;
+      color: var(--gold-2);
+    }
+
+    .hero-text p {
+      margin: 0;
+      max-width: 720px;
+      color: rgba(242, 239, 227, .82);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .story {
+      padding: 18px;
+    }
+
+    .dayline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .progress {
+      position: relative;
+      height: 8px;
+      margin: 0 0 16px;
+      border-radius: 999px;
+      background: rgba(242, 239, 227, .12);
+      overflow: hidden;
+    }
+
+    .progress span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--jade), var(--gold));
+      transition: width .25s ease;
+    }
+
+    .event-title {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.2;
+    }
+
+    .event-body {
+      margin: 0 0 18px;
+      color: rgba(242, 239, 227, .84);
+      font-size: 17px;
+      line-height: 1.86;
+      white-space: pre-line;
+    }
+
+    .choices {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice {
+      width: 100%;
+      min-height: 58px;
+      padding: 13px 14px;
+      border: 1px solid rgba(232, 223, 197, .18);
+      border-radius: var(--radius);
+      background: rgba(232, 223, 197, .07);
+      color: var(--ink);
+      text-align: left;
+      transition: transform .14s ease, border-color .14s ease, background .14s ease;
+    }
+
+    .choice strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--gold-2);
+      font-size: 15px;
+    }
+
+    .choice span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .choice:disabled {
+      cursor: not-allowed;
+      opacity: .46;
+      transform: none;
+    }
+
+    .stats {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stat {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) 42px;
+      gap: 9px;
+      align-items: center;
+      min-height: 30px;
+    }
+
+    .stat label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
     }
 
     .bar {
       height: 8px;
+      border-radius: 999px;
+      background: rgba(242, 239, 227, .10);
       overflow: hidden;
-      border: 1px solid rgba(184, 207, 255, .12);
-      background: rgba(255,255,255,.05);
     }
 
     .bar span {
       display: block;
+      width: 50%;
       height: 100%;
-      width: var(--value);
-      background: linear-gradient(90deg, var(--cyan), var(--violet));
-      box-shadow: 0 0 20px rgba(110, 231, 255, .32);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--jade));
+      transition: width .25s ease;
     }
 
-    .terminal {
-      margin-top: 22px;
-      border: 1px solid rgba(184, 207, 255, .16);
-      background: rgba(0, 0, 0, .34);
-      padding: 16px;
-      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
-      font-size: 13px;
-      line-height: 1.7;
-      color: #caeaff;
-      min-height: 145px;
-    }
-
-    .terminal p { margin: 0; }
-
-    .terminal .muted { color: #7d8ea7; }
-
-    section {
-      padding: 78px 0;
-      border-top: 1px solid rgba(184, 207, 255, .10);
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 28px;
-      margin-bottom: 30px;
-    }
-
-    h2 {
-      margin: 0;
-      max-width: 680px;
-      font-size: clamp(31px, 4.8vw, 58px);
-      line-height: 1.04;
-      font-weight: 810;
-      letter-spacing: 0;
-    }
-
-    .section-head p {
-      margin: 0;
-      max-width: 430px;
-      color: var(--muted);
-      line-height: 1.72;
-    }
-
-    .capability-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .capability-card {
-      position: relative;
-      min-height: 230px;
-      overflow: hidden;
-      border: 1px solid rgba(184, 207, 255, .14);
-      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
-      padding: 22px;
-    }
-
-    .capability-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto;
-      height: 2px;
-      background: linear-gradient(90deg, var(--cyan), transparent 72%);
-      opacity: .76;
-    }
-
-    .card-index { color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; }
-
-    .capability-card h3 { margin: 28px 0 12px; font-size: 22px; letter-spacing: 0; }
-
-    .capability-card p { margin: 0; color: var(--muted); line-height: 1.65; }
-
-    .workflow {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .workflow-panel, .sandbox-panel {
-      border: 1px solid rgba(184, 207, 255, .14);
-      background: var(--panel);
-      padding: 24px;
-    }
-
-    .step-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-
-    .step-list li {
-      display: grid;
-      grid-template-columns: 34px minmax(0, 1fr);
-      gap: 13px;
-      align-items: start;
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(184, 207, 255, .10);
-    }
-
-    .step-list li:last-child { border-bottom: 0; }
-
-    .step-number {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(110, 231, 255, .36);
-      color: var(--cyan);
-      font-size: 13px;
-      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    }
-
-    .step-list strong { display: block; margin-bottom: 5px; }
-
-    .step-list span { color: var(--muted); line-height: 1.55; }
-
-    .sandbox-panel h3, .workflow-panel h3 { margin: 0 0 16px; font-size: 24px; }
-
-    .sandbox-panel p { color: var(--muted); line-height: 1.65; margin: 0 0 18px; }
-
-    .mode-toggle {
-      width: 100%;
-      min-height: 50px;
-      border: 1px solid rgba(110, 231, 255, .45);
-      background: rgba(110, 231, 255, .10);
+    .stat strong {
       color: var(--ink);
-      cursor: pointer;
-      font-weight: 760;
+      font-size: 13px;
+      text-align: right;
     }
 
-    .status-readout {
-      margin-top: 18px;
+    .method-list, .relation-list, .log-list {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
-    .readout-item {
-      border: 1px solid rgba(184, 207, 255, .12);
-      background: rgba(255,255,255,.035);
-      padding: 13px;
-      min-height: 78px;
+    .method-card {
+      padding: 12px;
+      border: 1px solid rgba(232, 223, 197, .14);
+      border-radius: var(--radius);
+      background: rgba(232, 223, 197, .055);
     }
 
-    .readout-item span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 8px; }
-
-    .readout-item strong { font-size: 15px; overflow-wrap: anywhere; }
-
-    .safety-band {
-      display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-      gap: 18px;
-      align-items: stretch;
+    .method-card.active {
+      border-color: rgba(102, 197, 154, .46);
+      background: rgba(102, 197, 154, .09);
     }
 
-    .safety-copy {
-      border: 1px solid rgba(125, 255, 200, .16);
-      background: linear-gradient(180deg, rgba(125, 255, 200, .08), rgba(255,255,255,.025));
-      padding: 24px;
-    }
-
-    .safety-copy h2 { font-size: clamp(30px, 4vw, 48px); }
-
-    .safety-copy p { color: #b9c7d8; line-height: 1.7; }
-
-    .guardrails {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .guardrail {
-      border: 1px solid rgba(184, 207, 255, .12);
-      background: rgba(255,255,255,.035);
-      padding: 18px;
-      min-height: 128px;
-    }
-
-    .guardrail strong { display: block; margin-bottom: 9px; color: #eff7ff; }
-
-    .guardrail span { color: var(--muted); line-height: 1.55; }
-
-    footer.site-footer {
-      padding: 34px 0 42px;
-      border-top: 1px solid rgba(184, 207, 255, .12);
-      color: var(--muted);
+    .method-card strong, .relation-list strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
       font-size: 14px;
     }
 
-    body.precision-mode { --cyan: #7dffc8; --blue: #6ee7ff; --violet: #ffd28a; }
-
-    @media (max-width: 980px) {
-      .hero-grid, .workflow, .safety-band { grid-template-columns: 1fr; }
-      .capability-grid { grid-template-columns: repeat(2, 1fr); }
-      .section-head { display: block; }
-      .section-head p { margin-top: 14px; }
+    .method-card span, .relation-list span, .log-list li {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    @media (max-width: 680px) {
-      .shell { width: min(100% - 28px, 1180px); }
-      .nav-links { display: none; }
-      .hero { padding-top: 48px; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .capability-grid, .guardrails, .status-readout { grid-template-columns: 1fr; }
-      .signal { grid-template-columns: 76px minmax(0, 1fr) 38px; font-size: 12px; }
-      .actions .button { width: 100%; }
+    .relation-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(232, 223, 197, .10);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      #neuralCanvas { display: none; }
+    .relation-list li:last-child { border-bottom: 0; }
+
+    .log-list {
+      max-height: 300px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .log-list li {
+      padding: 9px 10px;
+      border-left: 3px solid rgba(215, 181, 104, .42);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: rgba(232, 223, 197, .055);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .paper-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(3, 4, 5, .72);
+      backdrop-filter: blur(12px);
+    }
+
+    .paper-modal.open { display: flex; }
+
+    .paper {
+      width: min(760px, 100%);
+      max-height: min(760px, calc(100vh - 32px));
+      overflow: auto;
+      border: 1px solid rgba(82, 60, 23, .24);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.08)),
+        var(--paper);
+      color: var(--paper-ink);
+      box-shadow: 0 30px 120px rgba(0,0,0,.58);
+      padding: 24px;
+    }
+
+    .paper h2 {
+      margin: 0 0 12px;
+      color: #4d3314;
+      font-size: 30px;
+    }
+
+    .paper p {
+      margin: 0 0 14px;
+      line-height: 1.78;
+    }
+
+    .paper .btn {
+      color: #4d3314;
+      border-color: rgba(77, 51, 20, .28);
+      background: rgba(77, 51, 20, .08);
+    }
+
+    .footer-note {
+      margin: 14px 0 0;
+      color: var(--faint);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 260px minmax(0, 1fr); }
+      .right-col { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    }
+
+    @media (max-width: 820px) {
+      .topbar { grid-template-columns: 1fr; padding-bottom: 12px; }
+      .top-actions { justify-content: flex-start; }
+      .layout, .right-col { grid-template-columns: 1fr; }
+      .hero-card { min-height: 250px; }
+      .mountains { width: 110%; min-width: 0; opacity: .38; }
+      .stat { grid-template-columns: 66px minmax(0, 1fr) 38px; }
+    }
+
+    @media (max-width: 520px) {
+      .app { width: min(100% - 18px, 1420px); padding-top: 10px; }
+      .top-actions .btn { flex: 1 1 calc(50% - 8px); }
+      .hero-card, .story, .panel.pad { padding: 13px; }
+      .event-body { font-size: 16px; }
+      .choice { min-height: 62px; }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="shell nav" aria-label="Primary">
-      <a class="brand" href="#top" aria-label="Codex AI Lab home">
-        <span class="brand-mark">AI</span>
-        <span>Codex AI Lab</span>
-      </a>
-      <div class="nav-links">
-        <a href="#capabilities">智能能力</a>
-        <a href="#workflow">协作流程</a>
-        <a href="#safety">安全边界</a>
-      </div>
-      <div class="nav-status"><span class="dot" aria-hidden="true"></span> STATIC ONLINE</div>
-    </nav>
-  </header>
-
-  <main id="top">
-    <section class="hero" aria-label="Codex AI hero">
-      <canvas id="neuralCanvas" aria-hidden="true"></canvas>
-      <div class="shell hero-grid">
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img">
+            <path d="M32 5 49 16v19c0 12-8 20-17 24-9-4-17-12-17-24V16L32 5Z" fill="none" stroke="#f0d98d" stroke-width="4"/>
+            <path d="M21 35c9-2 17-8 22-19-1 16-6 26-18 32 5-7 4-11-4-13Z" fill="#66c59a"/>
+          </svg>
+        </div>
         <div>
-          <div class="eyebrow"><span class="scan" aria-hidden="true"></span> Autonomous coding intelligence</div>
-          <h1><span class="glow-text">Codex</span> 正在把想法变成可运行的前端。</h1>
-          <p class="lead">这是部署在 <strong>web.mneux12130.cn</strong> 的 AI 前端测试站。它展示 Codex 的理解、规划、实现与验证能力，同时保持纯静态托管，不连接本地电脑，不暴露私人系统。</p>
-          <div class="actions">
-            <a class="button" href="#capabilities">查看智能能力</a>
-            <a class="button secondary" href="#safety">查看安全边界</a>
-          </div>
-        </div>
-
-        <aside class="intel-panel" aria-label="AI runtime status">
-          <div class="panel-header">
-            <div>
-              <h2 class="panel-title">Intelligence Core</h2>
-              <p class="panel-subtitle">Static interface simulation</p>
-            </div>
-            <span class="chip">VERIFIED</span>
-          </div>
-          <div class="signal-stack">
-            <div class="signal"><span>Reasoning</span><div class="bar" style="--value: 94%"><span></span></div><strong>94</strong></div>
-            <div class="signal"><span>Execution</span><div class="bar" style="--value: 88%"><span></span></div><strong>88</strong></div>
-            <div class="signal"><span>Safety</span><div class="bar" style="--value: 100%"><span></span></div><strong>100</strong></div>
-            <div class="signal"><span>Deploy</span><div class="bar" style="--value: 91%"><span></span></div><strong>91</strong></div>
-          </div>
-          <div class="terminal" id="terminalOutput" aria-live="polite">
-            <p><span class="muted">$</span> codex inspect web.mneux12130.cn</p>
-            <p>domain: connected</p>
-            <p>host: static hosting</p>
-            <p>mode: advanced interface</p>
-            <p>safety: static-only</p>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="capabilities">
-      <div class="shell">
-        <div class="section-head">
-          <h2>不是普通网页，是一个 AI 协作界面原型。</h2>
-          <p>页面用高级、克制、偏未来感的视觉语言，表达 Codex 从需求到交付的智能工作流。</p>
-        </div>
-        <div class="capability-grid">
-          <article class="capability-card">
-            <span class="card-index">01 / UNDERSTAND</span>
-            <h3>理解意图</h3>
-            <p>把一句自然语言需求拆成目标、边界、风险和可验证结果。</p>
-          </article>
-          <article class="capability-card">
-            <span class="card-index">02 / PLAN</span>
-            <h3>规划路线</h3>
-            <p>先读上下文，再选择最小而完整的执行路径，避免把事情做偏。</p>
-          </article>
-          <article class="capability-card">
-            <span class="card-index">03 / BUILD</span>
-            <h3>生成前端</h3>
-            <p>写出可访问、响应式、有交互的静态页面，并保留清晰结构。</p>
-          </article>
-          <article class="capability-card">
-            <span class="card-index">04 / VERIFY</span>
-            <h3>验证结果</h3>
-            <p>通过本地预览、公网页面、DOM 检查和移动端布局确认成果。</p>
-          </article>
+          <h1>山门三十日</h1>
+          <p>外门弟子 · 宗门试炼 · 文字修仙原型</p>
         </div>
       </div>
-    </section>
+      <div class="top-actions">
+        <button class="btn primary" id="newRunBtn">新开一局</button>
+        <button class="btn" id="saveBtn">保存</button>
+        <button class="btn" id="loadBtn">读取</button>
+        <button class="btn danger" id="clearBtn">清档</button>
+      </div>
+    </header>
 
-    <section id="workflow">
-      <div class="shell workflow">
-        <div class="workflow-panel">
-          <h3>Codex 工作流</h3>
-          <ol class="step-list">
-            <li><span class="step-number">01</span><div><strong>接收需求</strong><span>用户提出方向，Codex 判断目标、授权和安全边界。</span></div></li>
-            <li><span class="step-number">02</span><div><strong>读取项目</strong><span>检查仓库状态、页面结构和部署配置，避免误改关键文件。</span></div></li>
-            <li><span class="step-number">03</span><div><strong>实现界面</strong><span>在静态页面内完成视觉、内容、交互和响应式布局。</span></div></li>
-            <li><span class="step-number">04</span><div><strong>验证发布</strong><span>只在获得明确允许后提交推送，并检查公网 HTTPS 结果。</span></div></li>
-          </ol>
-        </div>
-        <div class="sandbox-panel">
-          <h3>前端智能沙盒</h3>
-          <p>点击按钮会切换页面的视觉参数和状态文字，只在当前浏览器内运行，不写入服务器、不改 DNS、不触碰账号设置。</p>
-          <button class="mode-toggle" id="modeButton" type="button">切换为 Precision Mode</button>
-          <div class="status-readout">
-            <div class="readout-item"><span>Domain</span><strong>web.mneux12130.cn</strong></div>
-            <div class="readout-item"><span>Hosting</span><strong>Static hosting</strong></div>
-            <div class="readout-item"><span>Runtime</span><strong id="runtimeMode">Advanced</strong></div>
-            <div class="readout-item"><span>Exposure</span><strong>Local: none</strong></div>
+    <main class="layout">
+      <aside class="panel pad left-col" aria-label="角色状态">
+        <h2 class="section-title">命簿 <span class="pill" id="realmText">引气未稳</span></h2>
+        <div class="stats" id="stats"></div>
+        <div class="chips" id="tags"></div>
+        <h2 class="section-title" style="margin-top:18px">修行法门</h2>
+        <ul class="method-list" id="methods"></ul>
+      </aside>
+
+      <section class="panel main-col" aria-label="游戏正文">
+        <div class="hero-card">
+          <svg class="mountains" viewBox="0 0 760 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="m1" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#d7b568" stop-opacity=".58"/>
+                <stop offset="1" stop-color="#090b0d" stop-opacity=".2"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 312 98 204l66 48L258 88l112 168 84-104 92 122 82-70 132 116v40H0Z" fill="url(#m1)"/>
+            <path d="M0 334 130 245l108 48 118-84 126 74 82-34 196 90v21H0Z" fill="#0f1515" opacity=".82"/>
+            <circle cx="576" cy="78" r="42" fill="#f0d98d" opacity=".45"/>
+          </svg>
+          <div class="hero-text">
+            <h2 id="sceneTitle">外门钟响</h2>
+            <p id="sceneIntro">三十日后，青岚宗开山门试炼。你灵根驳杂、月例微薄，若不能在试炼前稳住第一道关口，便会被遣回凡俗。</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="safety">
-      <div class="shell safety-band">
-        <div class="safety-copy">
-          <h2>高级感可以有，安全边界必须更清楚。</h2>
-          <p>这个站点只托管静态 HTML、CSS 和 JavaScript。访问者看到的是静态托管服务返回的网页，不会连到你的电脑，也不会获得你的本地文件或端口。</p>
+        <div class="story">
+          <div class="dayline">
+            <span id="dayText">第 1 日 / 30</span>
+            <span id="phaseText">清晨</span>
+          </div>
+          <div class="progress" aria-hidden="true"><span id="dayProgress"></span></div>
+          <h2 class="event-title" id="eventTitle">选择今日修行</h2>
+          <p class="event-body" id="eventBody"></p>
+          <div class="choices" id="choices"></div>
         </div>
-        <div class="guardrails">
-          <div class="guardrail"><strong>不放密钥</strong><span>页面中不写 API Key、token、账号密码或个人隐私。</span></div>
-          <div class="guardrail"><strong>不做攻击</strong><span>不进行扫描、压测、爆破、探测或任何破坏性测试。</span></div>
-          <div class="guardrail"><strong>静态托管</strong><span>当前没有数据库、登录、后端服务或用户提交入口。</span></div>
-          <div class="guardrail"><strong>发布确认</strong><span>每次公网发布前都先确认改动，再获得明确允许后推送。</span></div>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer class="site-footer">
-    <div class="shell">Codex AI Lab · web.mneux12130.cn · Advanced static frontend test</div>
-  </footer>
+      <aside class="right-col" aria-label="关系和记录">
+        <section class="panel pad">
+          <h2 class="section-title">人脉</h2>
+          <ul class="relation-list" id="relations"></ul>
+        </section>
+        <section class="panel pad">
+          <h2 class="section-title">近事</h2>
+          <ul class="log-list" id="log"></ul>
+        </section>
+      </aside>
+    </main>
+
+    <p class="footer-note">本页为本地可运行的静态文字游戏原型。存档只写入当前浏览器 localStorage。</p>
+  </div>
+
+  <div class="paper-modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="paper">
+      <h2 id="modalTitle"></h2>
+      <p id="modalBody"></p>
+      <div class="chips" id="modalChips"></div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px">
+        <button class="btn primary" id="modalContinue">继续</button>
+        <button class="btn" id="modalNew">再开一局</button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    const canvas = document.getElementById('neuralCanvas');
-    const ctx = canvas.getContext('2d');
-    const button = document.getElementById('modeButton');
-    const runtimeMode = document.getElementById('runtimeMode');
-    const terminalOutput = document.getElementById('terminalOutput');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let particles = [];
-    let pointer = { x: 0, y: 0, active: false };
+    const SAVE_KEY = "shanmen30.save.v1";
 
-    function resizeCanvas() {
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = Math.max(1, Math.floor(rect.width * ratio));
-      canvas.height = Math.max(1, Math.floor(rect.height * ratio));
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-      const count = Math.max(48, Math.min(110, Math.floor(rect.width / 13)));
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * rect.width,
-        y: Math.random() * rect.height,
-        vx: (Math.random() - .5) * .34,
-        vy: (Math.random() - .5) * .34,
-        r: Math.random() * 1.8 + .8
-      }));
-    }
+    const methods = [
+      { id: "sword", name: "青锋诀", desc: "战斗和试炼更稳，心神消耗较大。", stats: { qi: 8, body: 6, mind: -3 }, tag: "剑意" },
+      { id: "alchemy", name: "丹火经", desc: "草药和灵石收益更高，突破更安全。", stats: { herbs: 3, stones: 2, mind: 4 }, tag: "丹火" },
+      { id: "ghost", name: "幽篁录", desc: "险中取利，机缘更强，心魔也更近。", stats: { qi: 10, karma: -3, mind: -6 }, tag: "幽篁" }
+    ];
 
-    function drawNetwork() {
-      const width = canvas.clientWidth;
-      const height = canvas.clientHeight;
-      ctx.clearRect(0, 0, width, height);
-      const maxDistance = Math.min(160, width * .18);
-
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-      }
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i];
-          const b = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < maxDistance) {
-            const alpha = (1 - dist / maxDistance) * .26;
-            ctx.strokeStyle = `rgba(110, 231, 255, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      if (pointer.active) {
-        const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 190);
-        glow.addColorStop(0, 'rgba(177, 140, 255, .28)');
-        glow.addColorStop(1, 'rgba(177, 140, 255, 0)');
-        ctx.fillStyle = glow;
-        ctx.fillRect(pointer.x - 190, pointer.y - 190, 380, 380);
-      }
-
-      for (const p of particles) {
-        ctx.fillStyle = 'rgba(235, 248, 255, .82)';
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      if (!reduceMotion) requestAnimationFrame(drawNetwork);
-    }
-
-    button.addEventListener('click', () => {
-      const active = document.body.classList.toggle('precision-mode');
-      button.textContent = active ? '切换为 Advanced Mode' : '切换为 Precision Mode';
-      runtimeMode.textContent = active ? 'Precision' : 'Advanced';
-      terminalOutput.innerHTML = active
-        ? '<p><span class="muted">$</span> codex switch precision</p><p>mode: precision</p><p>focus: verification-first</p><p>safety: static-only</p><p>release gate: explicit permission</p>'
-        : '<p><span class="muted">$</span> codex inspect web.mneux12130.cn</p><p>domain: connected</p><p>host: static hosting</p><p>mode: advanced interface</p><p>safety: static-only</p>';
+    const baseState = () => ({
+      day: 1,
+      phase: "清晨",
+      realm: "引气未稳",
+      method: null,
+      ended: false,
+      stats: { qi: 18, body: 45, mind: 48, stones: 6, herbs: 2, merit: 0, karma: 0, wound: 0 },
+      rel: { master: 0, senior: 0, rival: 0, mortal: 0 },
+      flags: [],
+      log: ["你在外门柴房醒来，听见远处试炼钟声预演。"],
+      current: "intro"
     });
 
-    window.addEventListener('pointermove', (event) => {
-      const rect = canvas.getBoundingClientRect();
-      pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top, active: true };
-    });
+    let state = baseState();
 
-    window.addEventListener('pointerleave', () => { pointer.active = false; });
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    drawNetwork();
+    const statDefs = [
+      ["qi", "灵气", 100], ["body", "体魄", 100], ["mind", "心神", 100], ["stones", "灵石", 30],
+      ["herbs", "草药", 20], ["merit", "功绩", 30], ["karma", "因果", 30], ["wound", "暗伤", 30]
+    ];
+
+    const relationDefs = {
+      master: ["陈执事", "掌管外门月例与试炼名册。"],
+      senior: ["陆师姐", "内门边缘弟子，偶尔指点你。"],
+      rival: ["周砚", "同批外门，处处与你相争。"],
+      mortal: ["山下药童", "常送草药上山，知道不少小路。"]
+    };
+
+    const events = [
+      {
+        id: "lesson", title: "早课问答", body: "陈执事讲解吐纳关窍，忽然点你回答。众目之下，你知道这不是考学问，而是考你敢不敢站出来。",
+        choices: [
+          { label: "照经文回答", hint: "+心神 +陈执事", effect: { mind: 7, master: 1, merit: 1 }, log: "你答得稳妥，陈执事记下你的名字。" },
+          { label: "说出自己的疑惑", hint: "+灵气 +陆师姐，少量风险", effect: { qi: 8, senior: 1, mind: -3 }, log: "陆师姐多看了你一眼，课后指出你经脉滞涩处。" },
+          { label: "沉默避锋芒", hint: "+心神，-功绩", effect: { mind: 4, merit: -1 }, log: "你避开了目光，也避开了一次机会。" }
+        ]
+      },
+      {
+        id: "market", title: "山门小市", body: "试炼将近，外门小市比往日更吵。有人卖残缺符箓，有人低声收购妖兽骨。",
+        choices: [
+          { label: "买一包凝神草", hint: "-灵石 +草药 +心神", cost: { stones: 2 }, effect: { herbs: 3, mind: 5 }, log: "凝神草味苦，夜里却能压住杂念。" },
+          { label: "替药童搬货", hint: "+灵石 +药童", effect: { stones: 3, mortal: 1, body: -2 }, log: "药童告诉你后山有一处废弃丹井。" },
+          { label: "赌残符真假", hint: "险中求机缘", effect: (s) => chance(55) ? gain({ qi: 12, karma: 1 }, "残符竟引来一缕清灵之气。") : gain({ stones: -2, wound: 2 }, "残符炸开，袖口焦黑。") }
+        ]
+      },
+      {
+        id: "rival", title: "周砚拦路", body: "周砚抱剑拦在石阶上，说外门名额本就不多，让你识相些。旁边已有几名弟子停步围观。",
+        choices: [
+          { label: "正面应战", hint: "检定体魄/灵气", effect: (s) => check(s.stats.body + s.stats.qi, 72) ? gain({ merit: 3, rival: -1, body: -4 }, "你赢得不轻松，但外门终于有人记住你。") : gain({ wound: 5, mind: -4, rival: 1 }, "你败下阵来，周砚也看出你不是任人拿捏。") },
+          { label: "借门规压他", hint: "+心神 +陈执事", effect: { mind: 4, master: 1, rival: 1 }, log: "周砚冷笑退开，陈执事却在远处看见了。" },
+          { label: "绕路去后山", hint: "+草药，-功绩", effect: { herbs: 2, merit: -1, mortal: 1 }, log: "你没有争一时之气，却在后山采到一株石缝草。" }
+        ]
+      },
+      {
+        id: "cave", title: "废丹井", body: "药童说的废丹井果然存在。井口有旧禁制，里面传来微弱药香，也有一丝焦灼的妖气。",
+        choices: [
+          { label: "谨慎探井", hint: "+草药 +灵气", effect: { herbs: 4, qi: 5, mind: -2 }, log: "你找到几枚半废丹丸，仍有药力。" },
+          { label: "强破禁制", hint: "高风险 +机缘", effect: (s) => check(s.stats.qi + s.stats.mind, 88) ? gain({ qi: 18, herbs: 3, karma: 2 }, "井底残阵认你为半个有缘人。") : gain({ wound: 7, mind: -8 }, "禁制反震，经脉像被火线割过。") },
+          { label: "封井上报", hint: "+功绩 +陈执事", effect: { merit: 4, master: 1, karma: 1 }, log: "陈执事不动声色，却给你补了一枚护脉丹。" }
+        ]
+      },
+      {
+        id: "dream", title: "心魔梦", body: "夜里你梦见自己试炼失败，被逐下山。醒来时掌心全是冷汗，窗外月色像一张薄刃。",
+        choices: [
+          { label: "静坐到天明", hint: "+心神，-体魄", effect: { mind: 10, body: -4 }, log: "你熬过了这阵惊惧，呼吸重新变长。" },
+          { label: "吞草药压梦", hint: "-草药 +心神", cost: { herbs: 1 }, effect: { mind: 13, qi: 2 }, log: "药气压住梦魇，也让灵台微微发亮。" },
+          { label: "追问梦中声音", hint: "幽篁法门收益更高", effect: (s) => s.method === "ghost" ? gain({ qi: 16, mind: -5, karma: -2 }, "梦中声音教你一段逆行吐纳。") : gain({ mind: -8, wound: 2 }, "你只听见混乱回声，醒后头痛欲裂。") }
+        ]
+      },
+      {
+        id: "beast", title: "山兽惊门", body: "一只受伤山魈闯进外门药圃，弟子四散。若药圃被毁，试炼前的丹药供给也会受损。",
+        choices: [
+          { label: "拔剑牵制", hint: "青锋法门收益更高", effect: (s) => s.method === "sword" || check(s.stats.body + s.stats.qi, 78) ? gain({ merit: 5, body: -5, qi: 5 }, "你拖住山魈，等到执事赶来。") : gain({ wound: 6, merit: 1 }, "你被山魈掀翻，好在争取到片刻。") },
+          { label: "护住药圃", hint: "+草药 +功绩", effect: { herbs: 4, merit: 2, body: -3 }, log: "你保下几畦灵草，丹房记了你一笔。" },
+          { label: "救受伤杂役", hint: "+因果 +药童", effect: { karma: 4, mortal: 2, merit: 1 }, log: "杂役活了下来，山下药童向你郑重行礼。" }
+        ]
+      },
+      {
+        id: "senior", title: "月下指点", body: "陆师姐在演武坪练剑。她没有回头，只问你：想进内门，是为了长生，还是为了不再被人踩下去？",
+        choices: [
+          { label: "为了长生", hint: "+灵气 +心神", effect: { qi: 7, mind: 5, senior: 1 }, log: "陆师姐说，长生二字最轻，也最重。" },
+          { label: "为了不输", hint: "+体魄 +周砚敌意", effect: { body: 8, rival: 1, mind: -2 }, log: "陆师姐没有笑你，只让你多练三遍步法。" },
+          { label: "为了有选择", hint: "+关系 +因果", effect: { senior: 2, karma: 2, mind: 2 }, log: "陆师姐第一次认真记住了你的回答。" }
+        ]
+      },
+      {
+        id: "task", title: "宗门差遣", body: "陈执事给你一份差遣：去山下收回欠缴灵租。欠租的是一户猎户，家中老人病重。",
+        choices: [
+          { label: "按规矩收租", hint: "+灵石 +功绩，-因果", effect: { stones: 4, merit: 2, karma: -3, mortal: -1 }, log: "账目清楚了，心里却不清楚。" },
+          { label: "垫付一半", hint: "-灵石 +因果 +陈执事", cost: { stones: 2 }, effect: { karma: 5, master: 1, mortal: 1 }, log: "陈执事没说什么，只把你的名字往上挪了一行。" },
+          { label: "教猎户辨草药", hint: "+药童 +草药", effect: { herbs: 3, mortal: 2, merit: 1 }, log: "你没有解决所有事，但给他们留了活路。" }
+        ]
+      }
+    ];
+
+    const milestones = {
+      6: { title: "小比将近", body: "外门小比排榜贴出，周砚的名字在你前面。", effect: { mind: -3 } },
+      11: { title: "丹房缺药", body: "丹房传出消息，试炼护脉丹不足。草药和人情变得更值钱。", effect: { herbs: 1 } },
+      16: { title: "内门旁听", body: "陆师姐替你争来一次旁听机会。你听见真正的修行不是堆灵气，而是驯服自己的选择。", effect: { qi: 6, mind: 4, senior: 1 } },
+      21: { title: "风雨压山", body: "山门外阴云三日不散，执事说今年试炼恐怕会有劫象。", effect: { mind: -4, karma: 1 } },
+      26: { title: "试炼名册", body: "你的名字终于出现在试炼名册末尾。末尾，也是门内。", effect: { merit: 2, master: 1 } }
+    };
+
+    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+    function chance(n) { return Math.random() * 100 < n; }
+    function check(score, target) { return score + Math.random() * 30 >= target; }
+
+    function gain(delta, logText) {
+      applyDelta(delta);
+      return logText;
+    }
+
+    function applyDelta(delta) {
+      for (const [key, value] of Object.entries(delta || {})) {
+        if (key in state.stats) state.stats[key] += value;
+        else if (key in state.rel) state.rel[key] += value;
+      }
+      normalize();
+    }
+
+    function normalize() {
+      state.stats.qi = clamp(state.stats.qi, 0, 120);
+      state.stats.body = clamp(state.stats.body, 0, 100);
+      state.stats.mind = clamp(state.stats.mind, 0, 100);
+      state.stats.stones = clamp(state.stats.stones, 0, 99);
+      state.stats.herbs = clamp(state.stats.herbs, 0, 99);
+      state.stats.merit = clamp(state.stats.merit, -10, 99);
+      state.stats.karma = clamp(state.stats.karma, -30, 99);
+      state.stats.wound = clamp(state.stats.wound, 0, 99);
+      for (const k of Object.keys(state.rel)) state.rel[k] = clamp(state.rel[k], -5, 9);
+      if (state.stats.qi >= 78 && state.stats.mind >= 48 && state.stats.wound <= 18) state.realm = "引气圆满";
+      else if (state.stats.qi >= 52 && state.stats.body >= 38) state.realm = "引气入门";
+      else state.realm = "引气未稳";
+    }
+
+    function canPay(cost = {}) {
+      return Object.entries(cost).every(([key, value]) => (state.stats[key] || 0) >= value);
+    }
+
+    function pay(cost = {}) {
+      for (const [key, value] of Object.entries(cost)) state.stats[key] -= value;
+      normalize();
+    }
+
+    function chooseMethod(id) {
+      const method = methods.find(m => m.id === id);
+      state.method = id;
+      state.flags.push(method.tag);
+      applyDelta(method.stats);
+      state.current = "daily";
+      addLog(`你选择《${method.name}》，从此修行有了偏向。`);
+      render();
+    }
+
+    function addLog(text) {
+      state.log.unshift(`第 ${state.day} 日：${text}`);
+      state.log = state.log.slice(0, 16);
+    }
+
+    function nextEvent() {
+      if (state.day > 30) return finalTrial();
+      if (milestones[state.day]) return { type: "milestone", ...milestones[state.day] };
+      const index = (state.day * 7 + state.stats.qi + state.stats.merit + state.flags.length) % events.length;
+      return { type: "event", ...events[index] };
+    }
+
+    function advanceDay() {
+      state.day += 1;
+      state.phase = state.day >= 30 ? "试炼前夜" : (state.day % 5 === 0 ? "黄昏" : "清晨");
+      state.stats.body -= state.stats.wound > 18 ? 3 : 1;
+      state.stats.mind -= state.method === "ghost" ? 2 : 1;
+      state.stats.qi += state.method === "alchemy" ? 3 : 2;
+      normalize();
+      if (state.stats.body <= 0 || state.stats.mind <= 0) return badEnd("未至试炼", "你没有倒在擂台上，而是倒在试炼前的某个清晨。修行不是只向前冲，身体与心神也会讨债。", ["暗伤过重", "心神失守"]);
+      state.current = "daily";
+      render();
+    }
+
+    function resolveChoice(choice) {
+      if (!canPay(choice.cost)) return;
+      pay(choice.cost);
+      let text = choice.log || "你做出了选择。";
+      if (typeof choice.effect === "function") text = choice.effect(state);
+      else applyDelta(choice.effect);
+      addLog(text);
+      if (state.day >= 30) finalTrial();
+      else advanceDay();
+    }
+
+    function finalTrial() {
+      normalize();
+      const s = state.stats;
+      const support = state.rel.master + state.rel.senior + Math.max(0, state.rel.mortal) - Math.max(0, state.rel.rival);
+      const score = s.qi + s.body * .55 + s.mind * .65 + s.merit * 2 + s.karma * 1.2 + support * 3 - s.wound * 2;
+      if (score >= 145 && s.wound <= 20) return endGame("入内门", "试炼石阶尽头，你听见陈执事宣读你的名字。你没有一飞冲天，只是终于从可有可无的人，变成宗门必须认真看待的人。", ["内门弟子", state.realm, methodName()]);
+      if (s.karma >= 12 && state.rel.mortal >= 3) return endGame("山下护道人", "你没有进内门，却在山下救回一整队受妖气侵扰的凡人。宗门没有奖你长生，却给了你一块行走令。", ["行走令", "凡俗因果", methodName()]);
+      if (state.method === "ghost" && s.qi >= 88) return endGame("幽篁旁门", "你突破了，但灵台深处多了一道陌生回声。宗门不敢收你，山外却有另一条路。", ["旁门筑基", "心魔未清", methodName()]);
+      if (s.stones >= 12 && s.herbs >= 5) return endGame("散修远行", "你没有争到名额，却带着药草、灵石和一份地图离开山门。失败没有把你打回原点，只把路换到了山外。", ["散修", "资源充足", methodName()]);
+      return badEnd("试炼落榜", "你站到了最后一轮，却没能跨过门槛。周砚从你身边走过，没有嘲笑。你知道自己离成功只差一点，也差很多。", [state.realm, methodName(), "可再次挑战"]);
+    }
+
+    function badEnd(title, body, chips) { return endGame(title, body, chips); }
+
+    function endGame(title, body, chips) {
+      state.ended = true;
+      showModal(title, body, chips);
+      render();
+    }
+
+    function methodName() {
+      return methods.find(m => m.id === state.method)?.name || "未择法门";
+    }
+
+    function showModal(title, body, chips = []) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalBody").textContent = body;
+      document.getElementById("modalChips").innerHTML = chips.map(c => `<span class="pill">${escapeHtml(c)}</span>`).join("");
+      document.getElementById("modal").classList.add("open");
+    }
+
+    function closeModal() { document.getElementById("modal").classList.remove("open"); }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"]/g, s => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[s]));
+    }
+
+    function render() {
+      normalize();
+      renderStats();
+      renderMethods();
+      renderRelations();
+      renderLog();
+      document.getElementById("realmText").textContent = state.realm;
+      document.getElementById("dayText").textContent = `第 ${Math.min(state.day, 30)} 日 / 30`;
+      document.getElementById("phaseText").textContent = state.phase;
+      document.getElementById("dayProgress").style.width = `${clamp((state.day - 1) / 29 * 100, 0, 100)}%`;
+      document.getElementById("tags").innerHTML = [methodName(), ...state.flags.filter(Boolean)].slice(0, 5).map(t => `<span class="pill">${escapeHtml(t)}</span>`).join("");
+
+      if (!state.method) return renderIntro();
+      if (state.ended) return;
+      const ev = nextEvent();
+      if (ev.type === "milestone") return renderMilestone(ev);
+      renderEvent(ev);
+    }
+
+    function renderIntro() {
+      document.getElementById("sceneTitle").textContent = "外门钟响";
+      document.getElementById("sceneIntro").textContent = "三十日后，青岚宗开山门试炼。第一步不是成仙，是活着跨过第一道门槛。";
+      document.getElementById("eventTitle").textContent = "选择你的第一卷法门";
+      document.getElementById("eventBody").textContent = "藏经阁只给外门弟子三卷残本。它们都不完整，但足够决定你接下来三十日怎么活。";
+      document.getElementById("choices").innerHTML = methods.map(m => `<button class="choice" data-method="${m.id}"><strong>${m.name}</strong><span>${m.desc}</span></button>`).join("");
+      document.querySelectorAll("[data-method]").forEach(btn => btn.addEventListener("click", () => chooseMethod(btn.dataset.method)));
+    }
+
+    function renderMilestone(ev) {
+      document.getElementById("sceneTitle").textContent = ev.title;
+      document.getElementById("sceneIntro").textContent = ev.body;
+      document.getElementById("eventTitle").textContent = ev.title;
+      document.getElementById("eventBody").textContent = ev.body;
+      document.getElementById("choices").innerHTML = `<button class="choice" id="milestoneBtn"><strong>记下此事</strong><span>宗门局势推进，继续下一日。</span></button>`;
+      document.getElementById("milestoneBtn").addEventListener("click", () => {
+        applyDelta(ev.effect);
+        addLog(ev.body);
+        advanceDay();
+      });
+    }
+
+    function renderEvent(ev) {
+      document.getElementById("sceneTitle").textContent = "山门未开";
+      document.getElementById("sceneIntro").textContent = "每一天都很短，短到只够你选一件真正重要的事。";
+      document.getElementById("eventTitle").textContent = ev.title;
+      document.getElementById("eventBody").textContent = ev.body;
+      document.getElementById("choices").innerHTML = ev.choices.map((c, i) => {
+        const disabled = !canPay(c.cost) ? "disabled" : "";
+        const need = c.cost ? `需 ${Object.entries(c.cost).map(([k,v]) => statName(k) + v).join("、")}` : c.hint;
+        return `<button class="choice" data-choice="${i}" ${disabled}><strong>${c.label}</strong><span>${escapeHtml(need || "")}</span></button>`;
+      }).join("");
+      document.querySelectorAll("[data-choice]").forEach(btn => btn.addEventListener("click", () => resolveChoice(ev.choices[Number(btn.dataset.choice)])));
+    }
+
+    function statName(key) {
+      return Object.fromEntries(statDefs.map(d => [d[0], d[1]]))[key] || key;
+    }
+
+    function renderStats() {
+      document.getElementById("stats").innerHTML = statDefs.map(([key, name, max]) => {
+        const val = state.stats[key];
+        const pct = clamp((val + (key === "karma" || key === "merit" ? 10 : 0)) / (max + (key === "karma" || key === "merit" ? 10 : 0)) * 100, 0, 100);
+        const color = key === "wound" ? "linear-gradient(90deg, #d86d61, #f0d98d)" : undefined;
+        return `<div class="stat"><label>${name}</label><div class="bar"><span style="width:${pct}%;${color ? `background:${color}` : ""}"></span></div><strong>${Math.round(val)}</strong></div>`;
+      }).join("");
+    }
+
+    function renderMethods() {
+      document.getElementById("methods").innerHTML = methods.map(m => `<li class="method-card ${state.method === m.id ? "active" : ""}"><strong>${m.name}</strong><span>${m.desc}</span></li>`).join("");
+    }
+
+    function renderRelations() {
+      document.getElementById("relations").innerHTML = Object.entries(relationDefs).map(([key, [name, desc]]) => {
+        const v = state.rel[key];
+        const tone = v >= 4 ? "信任" : v >= 1 ? "有交情" : v <= -2 ? "敌意" : "陌生";
+        return `<li><strong>${name} <span class="pill">${tone} ${v}</span></strong><span>${desc}</span></li>`;
+      }).join("");
+    }
+
+    function renderLog() {
+      document.getElementById("log").innerHTML = state.log.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+    }
+
+    function newRun() {
+      state = baseState();
+      closeModal();
+      render();
+    }
+
+    function saveGame() {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+      showModal("已保存", "你的三十日命簿已写入当前浏览器。换设备或清理浏览器数据后不会保留。", ["localStorage", `第 ${state.day} 日`, state.realm]);
+    }
+
+    function loadGame() {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return showModal("没有存档", "当前浏览器里没有找到《山门三十日》的存档。", ["空"]);
+      try {
+        state = { ...baseState(), ...JSON.parse(raw) };
+        closeModal();
+        render();
+      } catch {
+        showModal("存档损坏", "存档无法读取。你可以清档后重新开始。", ["读取失败"]);
+      }
+    }
+
+    function clearGame() {
+      localStorage.removeItem(SAVE_KEY);
+      showModal("已清档", "本地存档已经删除。当前局面仍在，开新局即可重来。", ["localStorage"]);
+    }
+
+    document.getElementById("newRunBtn").addEventListener("click", newRun);
+    document.getElementById("saveBtn").addEventListener("click", saveGame);
+    document.getElementById("loadBtn").addEventListener("click", loadGame);
+    document.getElementById("clearBtn").addEventListener("click", clearGame);
+    document.getElementById("modalContinue").addEventListener("click", closeModal);
+    document.getElementById("modalNew").addEventListener("click", newRun);
+
+    render();
   </script>
 </body>
 </html>
