@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="山门三十日 - 文字修仙原型">
+  <meta name="description" content="山门三十日 - 凡人入山门文字修仙原型">
   <title>山门三十日</title>
   <style>
     :root {
@@ -529,7 +529,7 @@
         </div>
         <div>
           <h1>山门三十日</h1>
-          <p>外门弟子 · 宗门试炼 · 文字修仙原型</p>
+          <p>山下凡人 · 入门选拔 · 文字修仙原型</p>
         </div>
       </div>
       <div class="top-actions">
@@ -545,7 +545,7 @@
         <h2 class="section-title">命簿 <span class="pill" id="realmText">引气未稳</span></h2>
         <div class="stats" id="stats"></div>
         <div class="chips" id="tags"></div>
-        <h2 class="section-title" style="margin-top:18px">修行法门</h2>
+        <h2 class="section-title" style="margin-top:18px">入山命线</h2>
         <ul class="method-list" id="methods"></ul>
       </aside>
 
@@ -564,7 +564,7 @@
           </svg>
           <div class="hero-text">
             <h2 id="sceneTitle">外门钟响</h2>
-            <p id="sceneIntro">三十日后，青岚宗开山门试炼。你灵根驳杂、月例微薄，若不能在试炼前稳住第一道关口，便会被遣回凡俗。</p>
+          <p id="sceneIntro">三十日后，青岚宗开山收徒。你仍是山下凡人，手里只有一点盘缠、一点人情，和一件不能确定是福是祸的事。</p>
           </div>
         </div>
         <div class="story">
@@ -607,24 +607,24 @@
   </div>
 
   <script>
-    const SAVE_KEY = "shanmen30.save.v1";
+    const SAVE_KEY = "shanmen30.save.v2";
 
     const methods = [
-      { id: "sword", name: "青锋诀", desc: "战斗和试炼更稳，心神消耗较大。", stats: { qi: 8, body: 6, mind: -3 }, tag: "剑意" },
-      { id: "alchemy", name: "丹火经", desc: "草药和灵石收益更高，突破更安全。", stats: { herbs: 3, stones: 2, mind: 4 }, tag: "丹火" },
-      { id: "ghost", name: "幽篁录", desc: "险中取利，机缘更强，心魔也更近。", stats: { qi: 10, karma: -3, mind: -6 }, tag: "幽篁" }
+      { id: "omen", name: "正缘", desc: "你曾被半枚青玉符救过一次。它不邪，却像在等真正主人。", stats: { qi: 8, mind: 4, karma: 1 }, tag: "青玉符" },
+      { id: "mortal", name: "人缘", desc: "没有奇遇，没有异象。你只靠盘缠、人情、胆量和凡人的办法。", stats: { stones: 4, body: 5, merit: 1 }, tag: "凡骨" },
+      { id: "shadow", name: "邪缘", desc: "你在乱葬岗捡到一枚黑骨珠。它能救命，也会在梦里回头看你。", stats: { qi: 12, karma: -4, mind: -6 }, tag: "黑骨珠" }
     ];
 
     const baseState = () => ({
       day: 1,
       phase: "清晨",
-      realm: "引气未稳",
+      realm: "凡骨未验",
       method: null,
       ended: false,
-      stats: { qi: 18, body: 45, mind: 48, stones: 6, herbs: 2, merit: 0, karma: 0, wound: 0 },
+      stats: { qi: 6, body: 42, mind: 46, stones: 5, herbs: 1, merit: 0, karma: 0, wound: 0 },
       rel: { master: 0, senior: 0, rival: 0, mortal: 0 },
       flags: [],
-      log: ["你在外门柴房醒来，听见远处试炼钟声预演。"],
+      log: ["你在青岚山下醒来，听见茶棚里有人谈起三十日后的开山收徒。"],
       current: "intro"
     });
 
@@ -636,85 +636,85 @@
     ];
 
     const relationDefs = {
-      master: ["陈执事", "掌管外门月例与试炼名册。"],
-      senior: ["陆师姐", "内门边缘弟子，偶尔指点你。"],
-      rival: ["周砚", "同批外门，处处与你相争。"],
-      mortal: ["山下药童", "常送草药上山，知道不少小路。"]
+      master: ["赵管事", "青岚宗山下办事人，掌管杂役名册和引荐文书。"],
+      senior: ["沈青衣", "偶尔下山采买的外门弟子，话少，看人很准。"],
+      rival: ["周砚", "同村少年，家里凑足了路费，也想进山门。"],
+      mortal: ["阿桃", "药铺学徒，知道山下人情和采药小路。"]
     };
 
     const events = [
       {
-        id: "lesson", title: "早课问答", body: "陈执事讲解吐纳关窍，忽然点你回答。众目之下，你知道这不是考学问，而是考你敢不敢站出来。",
+        id: "teahouse", title: "茶棚传闻", body: "茶棚里挤满了想上山的人。有人说青岚宗今年只收二十名外门，杂役也要验骨。赵管事坐在角落，像没听见这些慌乱。",
         choices: [
-          { label: "照经文回答", hint: "+心神 +陈执事", effect: { mind: 7, master: 1, merit: 1 }, log: "你答得稳妥，陈执事记下你的名字。" },
-          { label: "说出自己的疑惑", hint: "+灵气 +陆师姐，少量风险", effect: { qi: 8, senior: 1, mind: -3 }, log: "陆师姐多看了你一眼，课后指出你经脉滞涩处。" },
-          { label: "沉默避锋芒", hint: "+心神，-功绩", effect: { mind: 4, merit: -1 }, log: "你避开了目光，也避开了一次机会。" }
+          { label: "替赵管事添茶", hint: "+赵管事 +功绩", effect: { master: 1, merit: 1, stones: -1 }, log: "赵管事没有谢你，只问你家住哪里。" },
+          { label: "向老客打听规矩", hint: "+心神 +人情", effect: { mind: 5, mortal: 1 }, log: "你知道了验骨、问心、登阶三关，至少不再两眼一黑。" },
+          { label: "记下收徒价码", hint: "+灵石意识，-心神", effect: { stones: 1, mind: -2 }, log: "你第一次明白，仙门也要路费、文书和人情。" }
         ]
       },
       {
-        id: "market", title: "山门小市", body: "试炼将近，外门小市比往日更吵。有人卖残缺符箓，有人低声收购妖兽骨。",
+        id: "market", title: "山下小市", body: "开山收徒的消息一出，青岚山脚的小市也涨了价。草鞋、干粮、伤药、假符，全都说自己能保人上山。",
         choices: [
-          { label: "买一包凝神草", hint: "-灵石 +草药 +心神", cost: { stones: 2 }, effect: { herbs: 3, mind: 5 }, log: "凝神草味苦，夜里却能压住杂念。" },
-          { label: "替药童搬货", hint: "+灵石 +药童", effect: { stones: 3, mortal: 1, body: -2 }, log: "药童告诉你后山有一处废弃丹井。" },
-          { label: "赌残符真假", hint: "险中求机缘", effect: (s) => chance(55) ? gain({ qi: 12, karma: 1 }, "残符竟引来一缕清灵之气。") : gain({ stones: -2, wound: 2 }, "残符炸开，袖口焦黑。") }
+          { label: "买伤药和干粮", hint: "-灵石 +草药 +体魄", cost: { stones: 2 }, effect: { herbs: 2, body: 4 }, log: "阿桃替你挑了不掺灰的药包。" },
+          { label: "帮阿桃搬药箱", hint: "+灵石 +阿桃", effect: { stones: 3, mortal: 1, body: -2 }, log: "阿桃说，山门后有条少人走的旧石阶。" },
+          { label: "买一张残符", hint: "正缘/邪缘会有异动", effect: (s) => s.method === "omen" ? gain({ qi: 9, karma: 2 }, "青玉符微微发热，残符上的山纹亮了一瞬。") : s.method === "shadow" ? gain({ qi: 13, mind: -5, karma: -2 }, "黑骨珠吞掉残符灰烬，你舌尖尝到铁锈味。") : gain({ stones: -2, mind: 2 }, "残符只是残符。你亏了钱，也学会少信热闹。") }
         ]
       },
       {
-        id: "rival", title: "周砚拦路", body: "周砚抱剑拦在石阶上，说外门名额本就不多，让你识相些。旁边已有几名弟子停步围观。",
+        id: "rival", title: "周砚争名", body: "周砚在村口拦住你。他家卖了牛，凑够路费。他说山门不是谁都能去的，至少你不该挡他的路。",
         choices: [
-          { label: "正面应战", hint: "检定体魄/灵气", effect: (s) => check(s.stats.body + s.stats.qi, 72) ? gain({ merit: 3, rival: -1, body: -4 }, "你赢得不轻松，但外门终于有人记住你。") : gain({ wound: 5, mind: -4, rival: 1 }, "你败下阵来，周砚也看出你不是任人拿捏。") },
-          { label: "借门规压他", hint: "+心神 +陈执事", effect: { mind: 4, master: 1, rival: 1 }, log: "周砚冷笑退开，陈执事却在远处看见了。" },
-          { label: "绕路去后山", hint: "+草药，-功绩", effect: { herbs: 2, merit: -1, mortal: 1 }, log: "你没有争一时之气，却在后山采到一株石缝草。" }
+          { label: "和他讲清利害", hint: "+心神，关系可能缓和", effect: { mind: 4, rival: -1 }, log: "周砚没服气，但他知道你不是来抢他的命。" },
+          { label: "激他一起上山", hint: "+体魄 +周砚敌意", effect: { body: 5, rival: 1, mind: -2 }, log: "你们约定登阶时见，话说得狠，脚下却都有点发虚。" },
+          { label: "避开他去采药", hint: "+草药 +阿桃，-功绩", effect: { herbs: 2, mortal: 1, merit: -1 }, log: "你没争这口气，却找到几株能换盘缠的石缝草。" }
         ]
       },
       {
-        id: "cave", title: "废丹井", body: "药童说的废丹井果然存在。井口有旧禁制，里面传来微弱药香，也有一丝焦灼的妖气。",
+        id: "well", title: "废丹井", body: "阿桃说的废丹井果然存在。井口有旧封条，里面传来微弱药香，也有一点像腐木烧尽后的冷味。",
         choices: [
-          { label: "谨慎探井", hint: "+草药 +灵气", effect: { herbs: 4, qi: 5, mind: -2 }, log: "你找到几枚半废丹丸，仍有药力。" },
-          { label: "强破禁制", hint: "高风险 +机缘", effect: (s) => check(s.stats.qi + s.stats.mind, 88) ? gain({ qi: 18, herbs: 3, karma: 2 }, "井底残阵认你为半个有缘人。") : gain({ wound: 7, mind: -8 }, "禁制反震，经脉像被火线割过。") },
-          { label: "封井上报", hint: "+功绩 +陈执事", effect: { merit: 4, master: 1, karma: 1 }, log: "陈执事不动声色，却给你补了一枚护脉丹。" }
+          { label: "只取井边药苔", hint: "+草药 +心神", effect: { herbs: 3, mind: 3 }, log: "你没有下井。药苔够换两日干粮，命也还在。" },
+          { label: "下井一探", hint: "高风险 +奇缘/邪缘", effect: (s) => check(s.stats.mind + s.stats.qi, 72) ? gain({ qi: 12, herbs: 2, karma: s.method === "shadow" ? -2 : 2 }, "井底旧阵亮起，你听见有人在很远处叹息。") : gain({ wound: 6, mind: -6 }, "井中冷气钻进骨缝，你爬出来时已分不清日色。") },
+          { label: "把封条交给赵管事", hint: "+功绩 +赵管事", effect: { merit: 3, master: 1, karma: 1 }, log: "赵管事收起封条，低声说：这口井不是给凡人看的。" }
         ]
       },
       {
-        id: "dream", title: "心魔梦", body: "夜里你梦见自己试炼失败，被逐下山。醒来时掌心全是冷汗，窗外月色像一张薄刃。",
+        id: "dream", title: "怪梦", body: "夜里你梦见山门开了又关。门缝里有人叫你的名字，也有人说，凡人进山，先要把凡心留下。",
         choices: [
-          { label: "静坐到天明", hint: "+心神，-体魄", effect: { mind: 10, body: -4 }, log: "你熬过了这阵惊惧，呼吸重新变长。" },
-          { label: "吞草药压梦", hint: "-草药 +心神", cost: { herbs: 1 }, effect: { mind: 13, qi: 2 }, log: "药气压住梦魇，也让灵台微微发亮。" },
-          { label: "追问梦中声音", hint: "幽篁法门收益更高", effect: (s) => s.method === "ghost" ? gain({ qi: 16, mind: -5, karma: -2 }, "梦中声音教你一段逆行吐纳。") : gain({ mind: -8, wound: 2 }, "你只听见混乱回声，醒后头痛欲裂。") }
+          { label: "把梦记下来", hint: "+心神 +灵气", effect: { mind: 7, qi: 3 }, log: "你发现梦里的钟声和山门晨钟差了半拍。" },
+          { label: "吞药压梦", hint: "-草药 +心神", cost: { herbs: 1 }, effect: { mind: 11, body: 2 }, log: "药气压住梦魇，天亮时你仍记得自己是谁。" },
+          { label: "回应门里声音", hint: "邪缘收益更高", effect: (s) => s.method === "shadow" ? gain({ qi: 16, mind: -7, karma: -3 }, "黑骨珠在枕下滚动，梦里那扇门开了一寸。") : gain({ mind: -6, wound: 2 }, "你只听见混乱回声，醒后头痛欲裂。") }
         ]
       },
       {
-        id: "beast", title: "山兽惊门", body: "一只受伤山魈闯进外门药圃，弟子四散。若药圃被毁，试炼前的丹药供给也会受损。",
+        id: "beast", title: "山魈夜过", body: "雨夜里，一只受伤山魈闯进村边药圃。村人不敢靠近，赵管事却站在远处看你们这些想上山的人。",
         choices: [
-          { label: "拔剑牵制", hint: "青锋法门收益更高", effect: (s) => s.method === "sword" || check(s.stats.body + s.stats.qi, 78) ? gain({ merit: 5, body: -5, qi: 5 }, "你拖住山魈，等到执事赶来。") : gain({ wound: 6, merit: 1 }, "你被山魈掀翻，好在争取到片刻。") },
-          { label: "护住药圃", hint: "+草药 +功绩", effect: { herbs: 4, merit: 2, body: -3 }, log: "你保下几畦灵草，丹房记了你一笔。" },
-          { label: "救受伤杂役", hint: "+因果 +药童", effect: { karma: 4, mortal: 2, merit: 1 }, log: "杂役活了下来，山下药童向你郑重行礼。" }
+          { label: "引开山魈", hint: "检定体魄/灵气", effect: (s) => check(s.stats.body + s.stats.qi, 68) ? gain({ merit: 4, body: -4, qi: 4 }, "你把山魈引到溪边，沈青衣出手前多看了你一眼。") : gain({ wound: 5, merit: 1 }, "你被山魈撞倒，好在没让它进村。") },
+          { label: "护住药圃", hint: "+草药 +功绩", effect: { herbs: 4, merit: 2, body: -3 }, log: "你保下几畦灵草，阿桃差点哭出来。" },
+          { label: "趁乱取妖血", hint: "邪缘/正缘异动", effect: (s) => s.method === "shadow" ? gain({ qi: 15, karma: -4, wound: 2 }, "黑骨珠吸尽妖血，你手背多出一道细纹。") : gain({ qi: 6, karma: -1, mind: -4 }, "妖血很热，你忽然害怕自己刚才的贪念。") }
         ]
       },
       {
-        id: "senior", title: "月下指点", body: "陆师姐在演武坪练剑。她没有回头，只问你：想进内门，是为了长生，还是为了不再被人踩下去？",
+        id: "senior", title: "外门弟子", body: "沈青衣下山采买，见你背着药筐等在雨里。她问：你想进山，是为了长生，还是为了离开这里？",
         choices: [
-          { label: "为了长生", hint: "+灵气 +心神", effect: { qi: 7, mind: 5, senior: 1 }, log: "陆师姐说，长生二字最轻，也最重。" },
-          { label: "为了不输", hint: "+体魄 +周砚敌意", effect: { body: 8, rival: 1, mind: -2 }, log: "陆师姐没有笑你，只让你多练三遍步法。" },
-          { label: "为了有选择", hint: "+关系 +因果", effect: { senior: 2, karma: 2, mind: 2 }, log: "陆师姐第一次认真记住了你的回答。" }
+          { label: "为了活得久一点", hint: "+心神 +沈青衣", effect: { mind: 5, senior: 1, qi: 3 }, log: "沈青衣说，长生听起来远，活过明天才近。" },
+          { label: "为了不再求人", hint: "+体魄 +周砚敌意", effect: { body: 6, rival: 1, mind: -2 }, log: "沈青衣没有笑你，只教你登阶时如何省力。" },
+          { label: "为了有得选", hint: "+关系 +因果", effect: { senior: 2, karma: 2, mind: 2 }, log: "沈青衣沉默很久，说她当年也是这么答的。" }
         ]
       },
       {
-        id: "task", title: "宗门差遣", body: "陈执事给你一份差遣：去山下收回欠缴灵租。欠租的是一户猎户，家中老人病重。",
+        id: "debt", title: "家中欠账", body: "掌柜拿出账本，说你若上山，药铺少一个人，欠下的药钱总要有人还。你知道他说得难听，却不全是假话。",
         choices: [
-          { label: "按规矩收租", hint: "+灵石 +功绩，-因果", effect: { stones: 4, merit: 2, karma: -3, mortal: -1 }, log: "账目清楚了，心里却不清楚。" },
-          { label: "垫付一半", hint: "-灵石 +因果 +陈执事", cost: { stones: 2 }, effect: { karma: 5, master: 1, mortal: 1 }, log: "陈执事没说什么，只把你的名字往上挪了一行。" },
-          { label: "教猎户辨草药", hint: "+药童 +草药", effect: { herbs: 3, mortal: 2, merit: 1 }, log: "你没有解决所有事，但给他们留了活路。" }
+          { label: "先还一半", hint: "-灵石 +心神 +人缘", cost: { stones: 2 }, effect: { mind: 5, mortal: 1, karma: 2 }, log: "掌柜收了钱，脸色仍冷，却没再说拦你的话。" },
+          { label: "写下欠契", hint: "+灵石，未来留债", effect: { stones: 3, mind: -3, karma: -1 }, log: "你拿到路费，也把一张欠契留在凡俗。" },
+          { label: "求阿桃作保", hint: "+阿桃，-人情", effect: { mortal: 2, stones: 1, mind: 1 }, log: "阿桃替你说话。你第一次觉得人情比灵石还重。" }
         ]
       }
     ];
 
     const milestones = {
-      6: { title: "小比将近", body: "外门小比排榜贴出，周砚的名字在你前面。", effect: { mind: -3 } },
-      11: { title: "丹房缺药", body: "丹房传出消息，试炼护脉丹不足。草药和人情变得更值钱。", effect: { herbs: 1 } },
-      16: { title: "内门旁听", body: "陆师姐替你争来一次旁听机会。你听见真正的修行不是堆灵气，而是驯服自己的选择。", effect: { qi: 6, mind: 4, senior: 1 } },
-      21: { title: "风雨压山", body: "山门外阴云三日不散，执事说今年试炼恐怕会有劫象。", effect: { mind: -4, karma: 1 } },
-      26: { title: "试炼名册", body: "你的名字终于出现在试炼名册末尾。末尾，也是门内。", effect: { merit: 2, master: 1 } }
+      6: { title: "收徒告示", body: "青岚宗告示贴到镇口：三十日后开山，凡骨可验，杂役亦收。人群散去后，你还站在告示前。", effect: { mind: 2 } },
+      11: { title: "路费涨价", body: "上山挑夫、草鞋、伤药全涨了价。想入仙门的人越多，凡俗的手伸得越快。", effect: { stones: -1, mind: -2 } },
+      16: { title: "旧事露角", body: "有人提起废丹井，赵管事脸色微变。沈青衣提醒你：有些机缘，宗门也未必愿意承认。", effect: { qi: 3, senior: 1 } },
+      21: { title: "山雨封路", body: "连日大雨冲坏旧石阶。有人决定放弃，有人临时抬价，有人说这是山门在筛人。", effect: { body: -2, mind: -2, karma: 1 } },
+      26: { title: "登山名册", body: "赵管事终于写下你的名字。不是收你入门，只是准你登山。可对凡人来说，这已经是第一道门。", effect: { merit: 2, master: 1 } }
     };
 
     function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
@@ -744,9 +744,9 @@
       state.stats.karma = clamp(state.stats.karma, -30, 99);
       state.stats.wound = clamp(state.stats.wound, 0, 99);
       for (const k of Object.keys(state.rel)) state.rel[k] = clamp(state.rel[k], -5, 9);
-      if (state.stats.qi >= 78 && state.stats.mind >= 48 && state.stats.wound <= 18) state.realm = "引气圆满";
-      else if (state.stats.qi >= 52 && state.stats.body >= 38) state.realm = "引气入门";
-      else state.realm = "引气未稳";
+      if (state.stats.qi >= 62 && state.stats.mind >= 42 && state.stats.wound <= 18) state.realm = "灵光初现";
+      else if (state.stats.qi >= 30 && state.stats.body >= 36) state.realm = "似有灵感";
+      else state.realm = "凡骨未验";
     }
 
     function canPay(cost = {}) {
@@ -782,12 +782,12 @@
 
     function advanceDay() {
       state.day += 1;
-      state.phase = state.day >= 30 ? "试炼前夜" : (state.day % 5 === 0 ? "黄昏" : "清晨");
+      state.phase = state.day >= 30 ? "登山之日" : (state.day % 5 === 0 ? "黄昏" : "清晨");
       state.stats.body -= state.stats.wound > 18 ? 3 : 1;
       state.stats.mind -= state.method === "ghost" ? 2 : 1;
       state.stats.qi += state.method === "alchemy" ? 3 : 2;
       normalize();
-      if (state.stats.body <= 0 || state.stats.mind <= 0) return badEnd("未至试炼", "你没有倒在擂台上，而是倒在试炼前的某个清晨。修行不是只向前冲，身体与心神也会讨债。", ["暗伤过重", "心神失守"]);
+      if (state.stats.body <= 0 || state.stats.mind <= 0) return badEnd("未至山门", "你没有倒在仙途上，而是倒在登山前的某个清晨。凡人想进山门，也要先撑过凡俗的讨债。", ["暗伤过重", "心神失守"]);
       state.current = "daily";
       render();
     }
@@ -807,12 +807,13 @@
       normalize();
       const s = state.stats;
       const support = state.rel.master + state.rel.senior + Math.max(0, state.rel.mortal) - Math.max(0, state.rel.rival);
-      const score = s.qi + s.body * .55 + s.mind * .65 + s.merit * 2 + s.karma * 1.2 + support * 3 - s.wound * 2;
-      if (score >= 145 && s.wound <= 20) return endGame("入内门", "试炼石阶尽头，你听见陈执事宣读你的名字。你没有一飞冲天，只是终于从可有可无的人，变成宗门必须认真看待的人。", ["内门弟子", state.realm, methodName()]);
-      if (s.karma >= 12 && state.rel.mortal >= 3) return endGame("山下护道人", "你没有进内门，却在山下救回一整队受妖气侵扰的凡人。宗门没有奖你长生，却给了你一块行走令。", ["行走令", "凡俗因果", methodName()]);
-      if (state.method === "ghost" && s.qi >= 88) return endGame("幽篁旁门", "你突破了，但灵台深处多了一道陌生回声。宗门不敢收你，山外却有另一条路。", ["旁门筑基", "心魔未清", methodName()]);
-      if (s.stones >= 12 && s.herbs >= 5) return endGame("散修远行", "你没有争到名额，却带着药草、灵石和一份地图离开山门。失败没有把你打回原点，只把路换到了山外。", ["散修", "资源充足", methodName()]);
-      return badEnd("试炼落榜", "你站到了最后一轮，却没能跨过门槛。周砚从你身边走过，没有嘲笑。你知道自己离成功只差一点，也差很多。", [state.realm, methodName(), "可再次挑战"]);
+      const score = s.qi * .9 + s.body * .45 + s.mind * .65 + s.merit * 2.4 + s.karma * 1.1 + support * 3 - s.wound * 2;
+      if (score >= 112 && s.wound <= 22) return endGame("入外门", "山门石阶尽头，赵管事把一枚木牌递给你。它不是仙箓，只是外门弟子的名牌。可你知道，从今天起，你终于站进了那扇门里。", ["外门弟子", state.realm, methodName()]);
+      if (s.merit >= 8 || state.rel.master >= 4) return endGame("杂役弟子", "你的灵光不够亮，名字也不够靠前。但赵管事把你留在了杂役院。扫地、挑水、烧炉，从这里开始，也算半只脚进了仙门。", ["杂役弟子", "低处开局", methodName()]);
+      if (state.method === "shadow" && s.qi >= 58) return endGame("旁门递手", "验灵石没有亮，黑骨珠却在袖中发烫。下山路上，有个戴斗笠的人问你：青岚不要你，想不想走另一条路？", ["旁门伏笔", "黑骨珠", "未入宗门"]);
+      if (state.method === "omen" && s.qi >= 45) return endGame("灵根封存", "验灵石亮了一瞬，又被沈青衣伸手按住。她说此事不可外传，让你三个月后再来。你落选了，也被某件事记住了。", ["青玉符", "三月后", "悬念"]);
+      if (s.karma >= 11 && state.rel.mortal >= 3) return endGame("山下守契", "你没有登完山。雨夜里，阿桃和几个村人被妖气困在药圃，你折返回去。山门关上时，沈青衣留下一枚旧木牌。", ["凡俗牵绊", "旧木牌", methodName()]);
+      return badEnd("落选归山下", "你登上了石阶，也走到了问心处，却没能留下。周砚从你身边走过，没有笑。你们都知道，山门不是梦，它只是更硬的一堵墙。", [state.realm, methodName(), "仍可再来"]);
     }
 
     function badEnd(title, body, chips) { return endGame(title, body, chips); }
@@ -824,7 +825,7 @@
     }
 
     function methodName() {
-      return methods.find(m => m.id === state.method)?.name || "未择法门";
+      return methods.find(m => m.id === state.method)?.name || "未定命线";
     }
 
     function showModal(title, body, chips = []) {
@@ -860,10 +861,10 @@
     }
 
     function renderIntro() {
-      document.getElementById("sceneTitle").textContent = "外门钟响";
-      document.getElementById("sceneIntro").textContent = "三十日后，青岚宗开山门试炼。第一步不是成仙，是活着跨过第一道门槛。";
-      document.getElementById("eventTitle").textContent = "选择你的第一卷法门";
-      document.getElementById("eventBody").textContent = "藏经阁只给外门弟子三卷残本。它们都不完整，但足够决定你接下来三十日怎么活。";
+      document.getElementById("sceneTitle").textContent = "山下凡人";
+      document.getElementById("sceneIntro").textContent = "三十日后，青岚宗开山收徒。你还不是弟子，甚至未必有灵根。可凡人若想入山，总要先决定自己凭什么敲门。";
+      document.getElementById("eventTitle").textContent = "选择你的入山命线";
+      document.getElementById("eventBody").textContent = "这不是阵营，也不是善恶。正缘有因果，邪缘有代价，人缘没有奇迹。你只是从不同的缝隙里，看见同一座山门。";
       document.getElementById("choices").innerHTML = methods.map(m => `<button class="choice" data-method="${m.id}"><strong>${m.name}</strong><span>${m.desc}</span></button>`).join("");
       document.querySelectorAll("[data-method]").forEach(btn => btn.addEventListener("click", () => chooseMethod(btn.dataset.method)));
     }
@@ -883,7 +884,7 @@
 
     function renderEvent(ev) {
       document.getElementById("sceneTitle").textContent = "山门未开";
-      document.getElementById("sceneIntro").textContent = "每一天都很短，短到只够你选一件真正重要的事。";
+      document.getElementById("sceneIntro").textContent = "每一天都很短，短到只够你选一件真正重要的事。路费、人情、伤药、怪梦，都会把你推向不同的门口。";
       document.getElementById("eventTitle").textContent = ev.title;
       document.getElementById("eventBody").textContent = ev.body;
       document.getElementById("choices").innerHTML = ev.choices.map((c, i) => {
